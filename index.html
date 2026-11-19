@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn & Grow - Autism-Adapted Educational Interface</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="theme-lavender font-medium">
+
+  <!-- TOP ACCESSIBLE APP BAR -->
+  <header class="app-header" role="banner">
+    <div class="nav-left">
+      <button id="navBackBtn" class="nav-btn btn-back" aria-label="Go back to previous page" style="display: none;">
+        <span class="btn-icon">⬅</span>
+        <span class="btn-text">Back</span>
+      </button>
+      <button id="navHomeBtn" class="nav-btn btn-home" aria-label="Go to Home dashboard">
+        <span class="btn-icon">🏠</span>
+        <span class="btn-text">Home</span>
+      </button>
+    </div>
+
+    <div class="header-center">
+      <h1 id="appHeaderTitle" class="app-title">Learn & Grow</h1>
+      <span id="breadcrumbTag" class="breadcrumb-tag">Student Dashboard</span>
+    </div>
+
+    <div class="nav-right">
+      <button id="ttsSpeakBtn" class="nav-btn btn-sound" aria-label="Listen to page instruction" title="Read aloud instruction">
+        <span class="btn-icon">🔊</span>
+        <span class="btn-text">Listen</span>
+      </button>
+      <button id="openSettingsBtn" class="nav-btn btn-settings" aria-label="Open Personalization Settings" title="Change colors, text size, and sound">
+        <span class="btn-icon">⚙️</span>
+        <span class="btn-text">Settings</span>
+      </button>
+      <button id="openTeacherBtn" class="nav-btn btn-teacher" aria-label="Open Teacher and Parent Dashboard" title="Teacher / Parent Portal">
+        <span class="btn-icon">👩‍🏫</span>
+        <span class="btn-text">Educator</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER (ONE DISCRETE SCREEN AT A TIME) -->
+  <main id="mainContent" class="main-container" role="main">
+
+    <!-- 1. HOME / EXPLORE DASHBOARD -->
+    <section id="viewDashboard" class="view-section active" aria-labelledby="dashHeading">
+      <div class="welcome-banner">
+        <div class="welcome-avatar">👋</div>
+        <div class="welcome-text">
+          <h2 id="dashHeading">Hello! Welcome back.</h2>
+          <p class="sub-instruction">What would you like to learn today? Choose one card below.</p>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Mathematics Card -->
+        <button class="dash-card card-math" onclick="app.navigateTo('subject-math')" aria-label="Mathematics: Numbers and activities">
+          <div class="card-icon-wrapper">
+            <span class="card-emoji">🔢</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Mathematics</h3>
+            <p class="card-desc">Numbers, counting & addition</p>
+          </div>
+          <span class="badge-status">5 Lessons</span>
+        </button>
+
+        <!-- English Card -->
+        <button class="dash-card card-english" onclick="app.navigateTo('subject-english')" aria-label="English: Words and reading">
+          <div class="card-icon-wrapper">
+            <span class="card-emoji">📖</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">English</h3>
+            <p class="card-desc">Letters, phonics & words</p>
+          </div>
+          <span class="badge-status">4 Lessons</span>
+        </button>
+
+        <!-- EVS Card -->
+        <button class="dash-card card-evs" onclick="app.navigateTo('subject-evs')" aria-label="Environmental Studies: Explore the world">
+          <div class="card-icon-wrapper">
+            <span class="card-emoji">🌱</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Environmental Studies</h3>
+            <p class="card-desc">Animals, plants & nature</p>
+          </div>
+          <span class="badge-status">3 Lessons</span>
+        </button>
+
+        <!-- Interactive Activities Card -->
+        <button class="dash-card card-practice" onclick="app.navigateTo('activities-hub')" aria-label="Activities: Learn through play">
+          <div class="card-icon-wrapper">
+            <span class="card-emoji">🧩</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Activities & Games</h3>
+            <p class="card-desc">Matching, sorting & counting</p>
+          </div>
+          <span class="badge-status">4 Games</span>
+        </button>
+
+        <!-- My Learning & Progress Card -->
+        <button class="dash-card card-resume" onclick="app.navigateTo('my-learning')" aria-label="My Learning: Continue previous lesson">
+          <div class="card-icon-wrapper">
+            <span class="card-emoji">⭐</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">My Learning</h3>
+            <p class="card-desc">Continue your last activity</p>
+          </div>
+          <span class="badge-status badge-highlight">Next: Addition</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. MATHEMATICS SUBJECT TOPICS VIEW -->
+    <section id="viewSubjectMath" class="view-section" aria-labelledby="mathHeading">
+      <div class="section-header">
+        <h2 id="mathHeading">Mathematics Lessons</h2>
+        <p class="sub-instruction">Select a topic below to start learning step by step.</p>
+      </div>
+
+      <div class="topics-list">
+        <div class="topic-item" onclick="app.startLesson('math-addition')">
+          <div class="topic-icon">➕</div>
+          <div class="topic-info">
+            <h3>Addition with Apples (Lesson 1)</h3>
+            <p>Put groups together with visual countable objects.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+
+        <div class="topic-item" onclick="app.startLesson('math-counting')">
+          <div class="topic-icon">🔢</div>
+          <div class="topic-info">
+            <h3>Counting Numbers 1 to 10</h3>
+            <p>Count stars and matching number tokens.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+
+        <div class="topic-item" onclick="app.openVirtualCalculator()">
+          <div class="topic-icon">🖩</div>
+          <div class="topic-info">
+            <h3>Visual Autism-Adapted Calculator</h3>
+            <p>Tactile button pad with visual dot counters.</p>
+          </div>
+          <span class="topic-badge badge-green">Open Calculator</span>
+        </div>
+
+        <div class="topic-item" onclick="app.startLesson('math-shapes')">
+          <div class="topic-icon">🔷</div>
+          <div class="topic-info">
+            <h3>Geometric Shapes</h3>
+            <p>Circle, Square, Triangle, and Rectangle.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ENGLISH SUBJECT TOPICS VIEW -->
+    <section id="viewSubjectEnglish" class="view-section" aria-labelledby="engHeading">
+      <div class="section-header">
+        <h2 id="engHeading">English & Phonics Lessons</h2>
+        <p class="sub-instruction">Explore words and pictures together.</p>
+      </div>
+
+      <div class="topics-list">
+        <div class="topic-item" onclick="app.startLesson('eng-words')">
+          <div class="topic-icon">🐱</div>
+          <div class="topic-info">
+            <h3>Sight Words & Phonics: CAT & DOG</h3>
+            <p>Pair words with pictures and sounds.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+
+        <div class="topic-item" onclick="app.startLesson('eng-alphabet')">
+          <div class="topic-icon">🔤</div>
+          <div class="topic-info">
+            <h3>Letter Sounds & Matching</h3>
+            <p>Find the first sound of everyday items.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. EVS TOPICS VIEW -->
+    <section id="viewSubjectEvs" class="view-section" aria-labelledby="evsHeading">
+      <div class="section-header">
+        <h2 id="evsHeading">Environmental Studies (EVS)</h2>
+        <p class="sub-instruction">Discover nature, plants, and animals in our world.</p>
+      </div>
+
+      <div class="topics-list">
+        <div class="topic-item" onclick="app.startLesson('evs-living')">
+          <div class="topic-icon">🌻</div>
+          <div class="topic-info">
+            <h3>Living & Non-Living Things</h3>
+            <p>Learn what grows, breathes, and needs water.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+
+        <div class="topic-item" onclick="app.startLesson('evs-plants')">
+          <div class="topic-icon">🌿</div>
+          <div class="topic-info">
+            <h3>Parts of a Plant</h3>
+            <p>Roots, stem, leaves, flower, and fruits.</p>
+          </div>
+          <span class="topic-badge">Start Lesson</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. INTERACTIVE ACTIVITIES HUB -->
+    <section id="viewActivitiesHub" class="view-section" aria-labelledby="actHeading">
+      <div class="section-header">
+        <h2 id="actHeading">Interactive Learning Activities</h2>
+        <p class="sub-instruction">Hands-on practice designed for calm, focused engagement.</p>
+      </div>
+
+      <div class="cards-grid">
+        <button class="dash-card card-math" onclick="app.startActivity('matching')" aria-label="Matching Activity: Pictures and Words">
+          <div class="card-icon-wrapper"><span class="card-emoji">🔗</span></div>
+          <div class="card-content">
+            <h3 class="card-title">Picture Matching</h3>
+            <p class="card-desc">Match pictures to the correct words</p>
+          </div>
+          <span class="badge-status">Practice Mode</span>
+        </button>
+
+        <button class="dash-card card-evs" onclick="app.startActivity('sorting')" aria-label="Sorting Activity: Categorize Items">
+          <div class="card-icon-wrapper"><span class="card-emoji">🧺</span></div>
+          <div class="card-content">
+            <h3 class="card-title">Category Sorting</h3>
+            <p class="card-desc">Sort fruits and vegetables into baskets</p>
+          </div>
+          <span class="badge-status">Practice Mode</span>
+        </button>
+
+        <button class="dash-card card-english" onclick="app.startActivity('counting')" aria-label="Counting Activity: Count Objects">
+          <div class="card-icon-wrapper"><span class="card-emoji">🌟</span></div>
+          <div class="card-content">
+            <h3 class="card-title">Object Counting</h3>
+            <p class="card-desc">Count the stars and select the number</p>
+          </div>
+          <span class="badge-status">Practice Mode</span>
+        </button>
+
+        <button class="dash-card card-practice" onclick="app.openVirtualCalculator()" aria-label="Virtual Calculator: Math Tool">
+          <div class="card-icon-wrapper"><span class="card-emoji">🖩</span></div>
+          <div class="card-content">
+            <h3 class="card-title">Visual Calculator</h3>
+            <p class="card-desc">Special sensory-adapted number pad</p>
+          </div>
+          <span class="badge-status badge-green">Interactive Tool</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 6. DEDICATED INDIVIDUAL LESSON VIEW (ADDITION LESSON) -->
+    <section id="viewLesson" class="view-section" aria-labelledby="lessonTitle">
+      <div class="lesson-container">
+        <!-- Progress & Breadcrumb -->
+        <div class="lesson-meta-bar">
+          <span id="lessonBreadcrumb" class="lesson-path">MATHEMATICS / ADDITION</span>
+          <span id="lessonStepIndicator" class="lesson-step">Step 1 of 5</span>
+        </div>
+
+        <div class="lesson-card">
+          <h2 id="lessonTitle" class="lesson-headline">Let's learn addition!</h2>
+          
+          <div class="instruction-box">
+            <span class="inst-icon">💡</span>
+            <p id="lessonInstruction" class="instruction-text">Addition means putting groups together. How many apples are there altogether?</p>
+          </div>
+
+          <!-- Visual Demonstration Area -->
+          <div class="demonstration-area" id="demoArea">
+            <div class="equation-container">
+              <!-- Group 1 -->
+              <div class="apple-group" id="groupA" aria-label="Group of 2 apples">
+                <span class="apple-item" title="Apple 1">🍎</span>
+                <span class="apple-item" title="Apple 2">🍎</span>
+                <span class="group-count-label">2 Apples</span>
+              </div>
+
+              <!-- Operator Symbol -->
+              <div class="operator-badge">➕</div>
+
+              <!-- Group 2 -->
+              <div class="apple-group" id="groupB" aria-label="Group of 3 apples">
+                <span class="apple-item" title="Apple 3">🍎</span>
+                <span class="apple-item" title="Apple 4">🍎</span>
+                <span class="apple-item" title="Apple 5">🍎</span>
+                <span class="group-count-label">3 Apples</span>
+              </div>
+
+              <!-- Equal Symbol -->
+              <div class="operator-badge">🟰</div>
+
+              <!-- Result Placeholder -->
+              <div class="result-placeholder" id="appleResultBox">
+                <span class="question-mark">❓</span>
+              </div>
+            </div>
+
+            <p class="visual-tip">Tip: Tap each apple to count 1, 2, 3, 4, 5!</p>
+          </div>
+
+          <!-- Multiple Choice Options -->
+          <div class="choice-container">
+            <p class="choice-prompt">Choose the correct answer:</p>
+            <div class="options-row" id="lessonOptionsRow">
+              <button class="choice-btn" onclick="app.checkAnswer(4)">4</button>
+              <button class="choice-btn" onclick="app.checkAnswer(5)">5</button>
+              <button class="choice-btn" onclick="app.checkAnswer(6)">6</button>
+            </div>
+          </div>
+
+          <!-- Supportive Feedback Box -->
+          <div id="feedbackBox" class="feedback-box" style="display: none;" role="status" aria-live="polite">
+            <div id="feedbackIcon" class="feedback-icon">🌟</div>
+            <div class="feedback-details">
+              <h4 id="feedbackTitle">That's correct!</h4>
+              <p id="feedbackMessage">2 apples + 3 apples = 5 apples altogether. Excellent work!</p>
+            </div>
+            <button id="feedbackActionBtn" class="btn-continue" onclick="app.nextLessonStep()">Next Step ➡</button>
+          </div>
+
+          <!-- Navigation Controls within Lesson -->
+          <div class="lesson-footer-controls">
+            <button class="btn-secondary" onclick="app.hintLesson()">
+              <span>💡</span> Need a hint?
+            </button>
+            <span class="pace-notice">Take your time. There is no rush.</span>
+            <button class="btn-primary" onclick="app.openVirtualCalculator()">
+              <span>🖩</span> Use Visual Calculator
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. INTERACTIVE MATCHING ACTIVITY VIEW -->
+    <section id="viewMatchingActivity" class="view-section" aria-labelledby="matchingHeading">
+      <div class="activity-container">
+        <div class="section-header">
+          <h2 id="matchingHeading">Picture & Word Matching</h2>
+          <p class="sub-instruction">1. Click a picture card. 2. Click the matching word card.</p>
+        </div>
+
+        <div class="matching-grid">
+          <!-- Left Column: Pictures -->
+          <div class="matching-col" id="colPictures">
+            <button class="match-card match-pic" data-match="sun" onclick="app.selectMatchItem(this, 'pic')">
+              <span class="match-emoji">☀️</span>
+              <span class="match-name">Sun</span>
+            </button>
+            <button class="match-card match-pic" data-match="tree" onclick="app.selectMatchItem(this, 'pic')">
+              <span class="match-emoji">🌳</span>
+              <span class="match-name">Tree</span>
+            </button>
+            <button class="match-card match-pic" data-match="book" onclick="app.selectMatchItem(this, 'pic')">
+              <span class="match-emoji">📚</span>
+              <span class="match-name">Book</span>
+            </button>
+          </div>
+
+          <!-- Right Column: Words -->
+          <div class="matching-col" id="colWords">
+            <button class="match-card match-word" data-match="tree" onclick="app.selectMatchItem(this, 'word')">
+              <span class="word-text">TREE</span>
+            </button>
+            <button class="match-card match-word" data-match="sun" onclick="app.selectMatchItem(this, 'word')">
+              <span class="word-text">SUN</span>
+            </button>
+            <button class="match-card match-word" data-match="book" onclick="app.selectMatchItem(this, 'word')">
+              <span class="word-text">BOOK</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="matchingFeedback" class="activity-feedback-banner" style="display: none;">
+          <span>🎉 Wonderful matching! All pairs are correct!</span>
+          <button class="btn-primary" onclick="app.resetMatching()">Play Again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. INTERACTIVE SORTING ACTIVITY VIEW -->
+    <section id="viewSortingActivity" class="view-section" aria-labelledby="sortingHeading">
+      <div class="activity-container">
+        <div class="section-header">
+          <h2 id="sortingHeading">Category Sorting</h2>
+          <p class="sub-instruction">Click an item below, then click the correct basket.</p>
+        </div>
+
+        <div class="sorting-source-items" id="sortItemsPool">
+          <button class="sort-item-card" data-category="fruit" onclick="app.selectSortItem(this)">
+            <span class="sort-emoji">🍎</span> Apple
+          </button>
+          <button class="sort-item-card" data-category="veggie" onclick="app.selectSortItem(this)">
+            <span class="sort-emoji">🥕</span> Carrot
+          </button>
+          <button class="sort-item-card" data-category="fruit" onclick="app.selectSortItem(this)">
+            <span class="sort-emoji">🍌</span> Banana
+          </button>
+          <button class="sort-item-card" data-category="veggie" onclick="app.selectSortItem(this)">
+            <span class="sort-emoji">🥦</span> Broccoli
+          </button>
+        </div>
+
+        <div class="baskets-row">
+          <div class="basket-zone" id="basketFruit" onclick="app.placeInBasket('fruit')">
+            <div class="basket-header">🧺 Fruits Basket</div>
+            <div class="basket-contents" id="contentsFruit">
+              <span class="empty-hint">Drop fruits here</span>
+            </div>
+          </div>
+
+          <div class="basket-zone" id="basketVeggie" onclick="app.placeInBasket('veggie')">
+            <div class="basket-header">🥗 Vegetables Basket</div>
+            <div class="basket-contents" id="contentsVeggie">
+              <span class="empty-hint">Drop vegetables here</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="sortingFeedback" class="activity-feedback-banner" style="display: none;">
+          <span>🌟 Excellent sorting! Everything is in its place!</span>
+          <button class="btn-primary" onclick="app.resetSorting()">Reset Activity</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. VIRTUAL AUTISM-ADAPTED CALCULATOR (MODAL / STANDALONE VIEW) -->
+    <section id="viewCalculator" class="view-section" aria-labelledby="calcHeading">
+      <div class="calculator-container">
+        <div class="section-header">
+          <h2 id="calcHeading">Visual Learning Calculator</h2>
+          <p class="sub-instruction">Touch the numbers to see dots and calculate peacefully.</p>
+        </div>
+
+        <div class="calc-card">
+          <div class="calc-screen" id="calcDisplay">0</div>
+          
+          <!-- Visual Dot Counter Representation -->
+          <div class="calc-visual-dots" id="calcDotsArea" aria-label="Visual dots representation">
+            <span class="dot-label">Visual Dots:</span>
+            <div class="dots-row" id="calcDotsContainer"></div>
+          </div>
+
+          <!-- Calculator Keypad -->
+          <div class="calc-keypad">
+            <button class="calc-btn btn-num" onclick="app.calcInput('7')">7</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('8')">8</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('9')">9</button>
+            <button class="calc-btn btn-op" onclick="app.calcInput('+')">➕</button>
+
+            <button class="calc-btn btn-num" onclick="app.calcInput('4')">4</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('5')">5</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('6')">6</button>
+            <button class="calc-btn btn-op" onclick="app.calcInput('-')">➖</button>
+
+            <button class="calc-btn btn-num" onclick="app.calcInput('1')">1</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('2')">2</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('3')">3</button>
+            <button class="calc-btn btn-eq" onclick="app.calcEquals()">🟰</button>
+
+            <button class="calc-btn btn-clear" onclick="app.calcClear()">Clear</button>
+            <button class="calc-btn btn-num" onclick="app.calcInput('0')">0</button>
+            <button class="calc-btn btn-backspace" onclick="app.calcBack()">⌫</button>
+            <button class="calc-btn btn-speak" onclick="app.calcSpeak()">🔊 Say</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. MY LEARNING & PROGRESS VIEW -->
+    <section id="viewMyLearning" class="view-section" aria-labelledby="myLearnHeading">
+      <div class="learning-progress-container">
+        <div class="section-header">
+          <h2 id="myLearnHeading">My Learning Journey</h2>
+          <p class="sub-instruction">Look at all the wonderful things you have explored today!</p>
+        </div>
+
+        <div class="progress-badges-grid">
+          <div class="reward-card">
+            <span class="reward-star">⭐</span>
+            <h3>Addition Explorer</h3>
+            <p>Completed 1 lesson</p>
+            <span class="stamp-done">Completed ✓</span>
+          </div>
+          <div class="reward-card">
+            <span class="reward-star">🎨</span>
+            <h3>Word Matching</h3>
+            <p>3 pairs completed</p>
+            <span class="stamp-done">Completed ✓</span>
+          </div>
+          <div class="reward-card">
+            <span class="reward-star">🌱</span>
+            <h3>Plant Detective</h3>
+            <p>Ready to start</p>
+            <span class="stamp-ready">Up Next</span>
+          </div>
+        </div>
+
+        <div class="continue-action-card">
+          <h3>Resume Previous Lesson</h3>
+          <p>Return right to your Addition lesson without searching.</p>
+          <button class="btn-primary" onclick="app.startLesson('math-addition')">Continue Addition Lesson ➡</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. TEACHER & PARENT MONITORING PORTAL -->
+    <section id="viewTeacherPortal" class="view-section" aria-labelledby="portalHeading">
+      <div class="educator-portal-container">
+        <div class="portal-header">
+          <div>
+            <h2 id="portalHeading">Educator & Therapist Monitoring Portal</h2>
+            <p class="portal-subtitle">Separate clinical view to track student learning progress, sensory profiles, and IEP targets.</p>
+          </div>
+          <button class="btn-secondary" onclick="app.navigateTo('dashboard')">Exit to Student View</button>
+        </div>
+
+        <!-- Student Selector & Summary Cards -->
+        <div class="portal-stats-row">
+          <div class="portal-stat-box">
+            <span class="stat-num">50</span>
+            <span class="stat-label">Total Needs Assessment Participants</span>
+          </div>
+          <div class="portal-stat-box">
+            <span class="stat-num">98.4%</span>
+            <span class="stat-label">UI Predictability & Calm Theme Consensus</span>
+          </div>
+          <div class="portal-stat-box">
+            <span class="stat-num">4</span>
+            <span class="stat-label">Autism-Adapted Modules Active</span>
+          </div>
+        </div>
+
+        <!-- Student Individual Profiles Table -->
+        <div class="portal-card">
+          <div class="portal-card-header">
+            <h3>Student Progress & Sensory Support Registry</h3>
+            <span class="badge-tag">Classroom 2A - Chandigarh / Mohali Cohort</span>
+          </div>
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Learner Name</th>
+                <th>ASD Support Level</th>
+                <th>Completed Modules</th>
+                <th>Sensory Setting Active</th>
+                <th>IEP Goal Focus</th>
+                <th>Recommendation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>S01</strong></td>
+                <td>Kabir S.</td>
+                <td>Level 1 (Support)</td>
+                <td>Addition L1, Matching</td>
+                <td>Lavender / Sound Muted</td>
+                <td>Addition 1-10</td>
+                <td>Progress to 2-digit subtraction</td>
+              </tr>
+              <tr>
+                <td><strong>S02</strong></td>
+                <td>Aarav M.</td>
+                <td>Level 2 (Substantial)</td>
+                <td>Fruit Sorting, Shapes</td>
+                <td>Sage Green / Large Text</td>
+                <td>Category Sorting</td>
+                <td>Provide concrete apple manipulatives</td>
+              </tr>
+              <tr>
+                <td><strong>S03</strong></td>
+                <td>Ananya P.</td>
+                <td>Level 1 (Support)</td>
+                <td>All Math & English</td>
+                <td>Soft Blue / Audio On</td>
+                <td>Phonics & Sight Words</td>
+                <td>Ready for intermediate story reading</td>
+              </tr>
+              <tr>
+                <td><strong>S04</strong></td>
+                <td>Rohan K.</td>
+                <td>Level 2 (Substantial)</td>
+                <td>Counting Stars</td>
+                <td>Lavender / Low Motion</td>
+                <td>Tactile Counting</td>
+                <td>Continue with visual calculator dots</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Download Data & Research Link -->
+        <div class="portal-card" style="margin-top: 1.5rem;">
+          <div class="portal-card-header">
+            <h3>Research Data & Findings Export</h3>
+          </div>
+          <p>The needs assessment data (N=50) collected with DP-TIC-AUT-Q, Priority Rating Scale, and semi-structured interviews is saved in the project workbook.</p>
+          <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="Autism_Educational_Interface_Data.xlsx" class="btn-primary" download>📥 Download Cleaned Excel Dataset (.xlsx)</a>
+            <a href="Autism_Educational_Interface_Report_Chapters_4_to_7.pdf" class="btn-secondary" download>📄 Download Complete Academic Report (.pdf)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PERSONALIZATION SETTINGS MODAL -->
+  <div id="settingsModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="settingsModalTitle">Personalization & Sensory Settings</h3>
+        <button class="modal-close-btn" onclick="app.closeSettings()" aria-label="Close settings">✖</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Text Size -->
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="setting-title">Text Size</span>
+            <span class="setting-sub">Choose comfortable text size</span>
+          </label>
+          <div class="setting-controls">
+            <button class="btn-toggle" onclick="app.setTextSize('small')">A- (Small)</button>
+            <button class="btn-toggle active" onclick="app.setTextSize('medium')">A (Medium)</button>
+            <button class="btn-toggle" onclick="app.setTextSize('large')">A+ (Large)</button>
+          </div>
+        </div>
+
+        <!-- Color Theme -->
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="setting-title">Calm Color Theme</span>
+            <span class="setting-sub">Soft palettes to prevent sensory glare</span>
+          </label>
+          <div class="setting-controls">
+            <button class="btn-theme-swatch theme-btn-lavender active" onclick="app.setTheme('theme-lavender')" title="Muted Lavender">Lavender</button>
+            <button class="btn-theme-swatch theme-btn-sage" onclick="app.setTheme('theme-sage')" title="Sage Green">Sage Green</button>
+            <button class="btn-theme-swatch theme-btn-blue" onclick="app.setTheme('theme-blue')" title="Soft Blue">Soft Blue</button>
+            <button class="btn-theme-swatch theme-btn-contrast" onclick="app.setTheme('theme-contrast')" title="High Contrast Soft">Soft Contrast</button>
+          </div>
+        </div>
+
+        <!-- Sound Toggle -->
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="setting-title">Sound Effects</span>
+            <span class="setting-sub">Gentle auditory cues (never sudden or loud)</span>
+          </label>
+          <div class="setting-controls">
+            <button id="soundToggleBtn" class="btn-toggle active" onclick="app.toggleSound()">Sound: ON</button>
+          </div>
+        </div>
+
+        <!-- Motion & Animations -->
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="setting-title">Screen Motion & Transitions</span>
+            <span class="setting-sub">Reduce motion for visual calm</span>
+          </label>
+          <div class="setting-controls">
+            <button id="motionToggleBtn" class="btn-toggle active" onclick="app.toggleMotion()">Motion: Reduced</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" onclick="app.closeSettings()">Save & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="app.js"></script>
+</body>
+</html>
