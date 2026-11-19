@@ -1,11 +1,15 @@
 {
   "priority": {
     "grandMean": 4.584722222222222,
+    "grandSD": 0.5491578385431988,
+    "avgItemSD": 0.5222423171291802,
     "cronbachAlpha": 0.8648083595013603,
     "items": [
       {
         "id": "REQ01",
         "label": "Clear and consistent screen structure",
+        "cat": "Predictable Navigation & Screen Structure",
+        "n": 40,
         "meanAll": 4.775,
         "sdAll": 0.42290206176626044,
         "median": 5,
@@ -17,15 +21,16 @@
         "sdT": 0.44977644510880355,
         "meanOT": 4.9,
         "sdOT": 0.3162277660168379,
-        "tStat": -1.2880368401570805,
-        "dfWelch": 22.110217704619586,
-        "pVal": 0.19240038204172194,
         "alphaIfDeleted": 0.8540167011910927,
-        "rank": 2
+        "rankNum": 2,
+        "rankStr": "2 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ02",
         "label": "Familiar, clearly labelled controls",
+        "cat": "Predictable Navigation & Screen Structure",
+        "n": 40,
         "meanAll": 4.525,
         "sdAll": 0.6400120191179103,
         "median": 5,
@@ -37,15 +42,16 @@
         "sdT": 0.6288102248298566,
         "meanOT": 4.5,
         "sdOT": 0.7071067811865476,
-        "tStat": 0.13261378514205346,
-        "dfWelch": 14.066854137125416,
-        "pVal": 0.894484978527021,
         "alphaIfDeleted": 0.8563407258064516,
-        "rank": 12
+        "rankNum": 12,
+        "rankStr": "12",
+        "priority": "Medium"
       },
       {
         "id": "REQ03",
         "label": "Simple and concise instructions",
+        "cat": "Visual Simplicity & Reduced Cognitive Load",
+        "n": 40,
         "meanAll": 4.7,
         "sdAll": 0.4640954808922571,
         "median": 5,
@@ -57,15 +63,16 @@
         "sdT": 0.466091599699399,
         "meanOT": 4.7,
         "sdOT": 0.48304589153964794,
-        "tStat": 0,
-        "dfWelch": 15.004538577912255,
-        "pVal": 0.999,
         "alphaIfDeleted": 0.8573432004313112,
-        "rank": 7
+        "rankNum": 7,
+        "rankStr": "7",
+        "priority": "High"
       },
       {
         "id": "REQ04",
         "label": "One task/step presented clearly at a time when appropriate",
+        "cat": "Visual Simplicity & Reduced Cognitive Load",
+        "n": 40,
         "meanAll": 4.75,
         "sdAll": 0.4385290096535146,
         "median": 5,
@@ -77,15 +84,16 @@
         "sdT": 0.466091599699399,
         "meanOT": 4.9,
         "sdOT": 0.3162277660168379,
-        "tStat": -1.523154621172783,
-        "dfWelch": 23.0093800691163,
-        "pVal": 0.12155321493233684,
         "alphaIfDeleted": 0.8574561403508771,
-        "rank": 5
+        "rankNum": 5,
+        "rankStr": "5 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ05",
         "label": "Easy-to-find Back / Home / Help options",
+        "cat": "Predictable Navigation & Screen Structure",
+        "n": 40,
         "meanAll": 4.775,
         "sdAll": 0.4797167967959901,
         "median": 5,
@@ -97,15 +105,16 @@
         "sdT": 0.5040069329937308,
         "meanOT": 4.8,
         "sdOT": 0.42163702135578385,
-        "tStat": -0.20575657079023596,
-        "dfWelch": 18.324842331157164,
-        "pVal": 0.8369299914475428,
         "alphaIfDeleted": 0.8599930096593797,
-        "rank": 3
+        "rankNum": 2,
+        "rankStr": "2 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ06",
         "label": "Predictable response after clicking or selecting",
+        "cat": "Predictable Navigation & Screen Structure",
+        "n": 40,
         "meanAll": 4.625,
         "sdAll": 0.4902903378454601,
         "median": 5,
@@ -117,15 +126,16 @@
         "sdT": 0.479463301485384,
         "meanOT": 4.5,
         "sdOT": 0.5270462766947299,
-        "tStat": 0.8853156407653637,
-        "dfWelch": 14.312397356298819,
-        "pVal": 0.37322598936982354,
         "alphaIfDeleted": 0.8596206359738668,
-        "rank": 8
+        "rankNum": 8,
+        "rankStr": "8 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ07",
         "label": "Limited unnecessary visual clutter",
+        "cat": "Visual Simplicity & Reduced Cognitive Load",
+        "n": 40,
         "meanAll": 4.8,
         "sdAll": 0.4050957468334666,
         "median": 5,
@@ -137,15 +147,16 @@
         "sdT": 0.43018306715207627,
         "meanOT": 4.9,
         "sdOT": 0.3162277660168379,
-        "tStat": -1.0485828848263345,
-        "dfWelch": 21.0430849720074,
-        "pVal": 0.2904897595359204,
         "alphaIfDeleted": 0.8601887572333977,
-        "rank": 1
+        "rankNum": 1,
+        "rankStr": "1",
+        "priority": "High"
       },
       {
         "id": "REQ08",
         "label": "Ability to reduce or disable sound and motion",
+        "cat": "Sensory Regulation & Interface Customization",
+        "n": 40,
         "meanAll": 4.55,
         "sdAll": 0.5970010522689694,
         "median": 5,
@@ -157,15 +168,16 @@
         "sdT": 0.6297235299224025,
         "meanOT": 4.7,
         "sdOT": 0.48304589153964794,
-        "tStat": -1.0461068887267264,
-        "dfWelch": 20.084959431878886,
-        "pVal": 0.291648098035064,
         "alphaIfDeleted": 0.8486762314286501,
-        "rank": 11
+        "rankNum": 11,
+        "rankStr": "11",
+        "priority": "Medium"
       },
       {
         "id": "REQ09",
         "label": "Appropriate use of images/symbols with text",
+        "cat": "Multimodal & Concrete Instruction",
+        "n": 40,
         "meanAll": 4.775,
         "sdAll": 0.42290206176626044,
         "median": 5,
@@ -177,15 +189,16 @@
         "sdT": 0.4301830671520762,
         "meanOT": 4.8,
         "sdOT": 0.42163702135578385,
-        "tStat": -0.21540659228537945,
-        "dfWelch": 15.741102998314156,
-        "pVal": 0.8293918501948041,
         "alphaIfDeleted": 0.8607048872180452,
-        "rank": 4
+        "rankNum": 2,
+        "rankStr": "2 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ10",
         "label": "Multiple ways of presenting important information",
+        "cat": "Multimodal & Concrete Instruction",
+        "n": 40,
         "meanAll": 4.3,
         "sdAll": 0.6076436202501999,
         "median": 4,
@@ -197,15 +210,16 @@
         "sdT": 0.6260623155792925,
         "meanOT": 4.5,
         "sdOT": 0.5270462766947299,
-        "tStat": -1.319503004965343,
-        "dfWelch": 18.207195561059795,
-        "pVal": 0.18151542068968052,
         "alphaIfDeleted": 0.867337092257625,
-        "rank": 18
+        "rankNum": 18,
+        "rankStr": "18",
+        "priority": "Medium"
       },
       {
         "id": "REQ11",
         "label": "Multiple ways for the learner to respond",
+        "cat": "Multimodal & Concrete Instruction",
+        "n": 40,
         "meanAll": 4.325,
         "sdAll": 0.6938373414643064,
         "median": 4,
@@ -217,15 +231,16 @@
         "sdT": 0.7143842296595069,
         "meanOT": 4.7,
         "sdOT": 0.48304589153964794,
-        "tStat": -2.4892933126855894,
-        "dfWelch": 23.09691875503252,
-        "pVal": 0.009724183604150172,
         "alphaIfDeleted": 0.8560770723972003,
-        "rank": 16
+        "rankNum": 16,
+        "rankStr": "16 (tie)",
+        "priority": "Medium"
       },
       {
         "id": "REQ12",
         "label": "Personalization of pace and difficulty",
+        "cat": "Sensory Regulation & Interface Customization",
+        "n": 40,
         "meanAll": 4.625,
         "sdAll": 0.4902903378454601,
         "median": 5,
@@ -237,15 +252,16 @@
         "sdT": 0.4982728791224397,
         "meanOT": 4.7,
         "sdOT": 0.48304589153964794,
-        "tStat": -0.5624621199366583,
-        "dfWelch": 15.89583214210645,
-        "pVal": 0.5728964952530409,
         "alphaIfDeleted": 0.855822977329451,
-        "rank": 9
+        "rankNum": 8,
+        "rankStr": "8 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ13",
         "label": "Personalization of sensory/interface settings",
+        "cat": "Sensory Regulation & Interface Customization",
+        "n": 40,
         "meanAll": 4.475,
         "sdAll": 0.5986094998689322,
         "median": 5,
@@ -257,15 +273,16 @@
         "sdT": 0.6149478998583782,
         "meanOT": 4.8,
         "sdOT": 0.42163702135578385,
-        "tStat": -2.4860265221538698,
-        "dfWelch": 22.739707080583116,
-        "pVal": 0.009825825732975968,
         "alphaIfDeleted": 0.8579920086507016,
-        "rank": 14
+        "rankNum": 14,
+        "rankStr": "14",
+        "priority": "Medium"
       },
       {
         "id": "REQ14",
         "label": "Immediate and understandable feedback after responses",
+        "cat": "Feedback & Low-Frustration Recovery",
+        "n": 40,
         "meanAll": 4.575,
         "sdAll": 0.5006406152531231,
         "median": 5,
@@ -277,15 +294,16 @@
         "sdT": 0.507416263404925,
         "meanOT": 4.7,
         "sdOT": 0.48304589153964794,
-        "tStat": -0.9329245088728806,
-        "dfWelch": 16.15980010230984,
-        "pVal": 0.34777317696467125,
         "alphaIfDeleted": 0.8558997030940723,
-        "rank": 10
+        "rankNum": 10,
+        "rankStr": "10",
+        "priority": "Medium"
       },
       {
         "id": "REQ15",
         "label": "Low-frustration error recovery / try-again support",
+        "cat": "Feedback & Low-Frustration Recovery",
+        "n": 40,
         "meanAll": 4.75,
         "sdAll": 0.4385290096535146,
         "median": 5,
@@ -297,15 +315,16 @@
         "sdT": 0.466091599699399,
         "meanOT": 4.9,
         "sdOT": 0.3162277660168379,
-        "tStat": -1.523154621172783,
-        "dfWelch": 23.0093800691163,
-        "pVal": 0.12155321493233684,
         "alphaIfDeleted": 0.8527423652655504,
-        "rank": 6
+        "rankNum": 5,
+        "rankStr": "5 (tie)",
+        "priority": "High"
       },
       {
         "id": "REQ16",
         "label": "Visible progress or clear completion cues",
+        "cat": "Feedback & Low-Frustration Recovery",
+        "n": 40,
         "meanAll": 4.5,
         "sdAll": 0.5547001962252291,
         "median": 5,
@@ -317,15 +336,16 @@
         "sdT": 0.571346463723366,
         "meanOT": 4.6,
         "sdOT": 0.5163977794943222,
-        "tStat": -0.6880911187881287,
-        "dfWelch": 16.966626704484543,
-        "pVal": 0.4898696487059311,
         "alphaIfDeleted": 0.8564466731512396,
-        "rank": 13
+        "rankNum": 13,
+        "rankStr": "13",
+        "priority": "Medium"
       },
       {
         "id": "REQ17",
         "label": "Ability to use student interests/choices to support engagement",
+        "cat": "Learner Agency & Adult Routine Integration",
+        "n": 40,
         "meanAll": 4.375,
         "sdAll": 0.5400617248673217,
         "median": 4,
@@ -337,15 +357,16 @@
         "sdT": 0.5466722735905339,
         "meanOT": 4.5,
         "sdOT": 0.5270462766947299,
-        "tStat": -0.857928090889358,
-        "dfWelch": 15.975038679243795,
-        "pVal": 0.388356027214805,
         "alphaIfDeleted": 0.8612763534950363,
-        "rank": 15
+        "rankNum": 15,
+        "rankStr": "15",
+        "priority": "Medium"
       },
       {
         "id": "REQ18",
         "label": "Compatibility with adult support and classroom/therapy routines",
+        "cat": "Learner Agency & Adult Routine Integration",
+        "n": 40,
         "meanAll": 4.325,
         "sdAll": 0.6155047959570694,
         "median": 4,
@@ -357,65 +378,174 @@
         "sdT": 0.563241847975046,
         "meanOT": 4.1,
         "sdOT": 0.7378647873726218,
-        "tStat": 1.1765234484987623,
-        "dfWelch": 12.687117115640545,
-        "pVal": 0.23467637374490047,
         "alphaIfDeleted": 0.8644261853448276,
-        "rank": 17
+        "rankNum": 16,
+        "rankStr": "16 (tie)",
+        "priority": "Medium"
+      }
+    ],
+    "categories": [
+      {
+        "category": "Visual Simplicity & Reduced Cognitive Load",
+        "spssVar": "cat_vis_simplicity",
+        "n": 40,
+        "itemIds": "REQ03, REQ04, REQ07",
+        "numItems": 3,
+        "mean": 4.75,
+        "sd": 0.31802452914767615,
+        "min": 4,
+        "max": 5,
+        "tMean": 4.722222222222223,
+        "tSD": 0.3166313753272641,
+        "otMean": 4.833333333333334,
+        "otSD": 0.32394177193585,
+        "rank": 1,
+        "priority": "High"
+      },
+      {
+        "category": "Predictable Navigation & Screen Structure",
+        "spssVar": "cat_nav_structure",
+        "n": 40,
+        "itemIds": "REQ01, REQ02, REQ05, REQ06",
+        "numItems": 4,
+        "mean": 4.675,
+        "sd": 0.35895146447138765,
+        "min": 3.5,
+        "max": 5,
+        "tMean": 4.675,
+        "tSD": 0.3664249464478509,
+        "otMean": 4.675,
+        "otSD": 0.3545341231030441,
+        "rank": 2,
+        "priority": "High"
+      },
+      {
+        "category": "Feedback & Low-Frustration Recovery",
+        "spssVar": "cat_feedback_recovery",
+        "n": 40,
+        "itemIds": "REQ14, REQ15, REQ16",
+        "numItems": 3,
+        "mean": 4.6083333333333325,
+        "sd": 0.35315025090618263,
+        "min": 3.6666666666666665,
+        "max": 5,
+        "tMean": 4.566666666666666,
+        "tSD": 0.3517879890957488,
+        "otMean": 4.733333333333333,
+        "otSD": 0.34426518632954817,
+        "rank": 3,
+        "priority": "High"
+      },
+      {
+        "category": "Sensory Regulation & Interface Customization",
+        "spssVar": "cat_sensory_custom",
+        "n": 40,
+        "itemIds": "REQ08, REQ12, REQ13",
+        "numItems": 3,
+        "mean": 4.549999999999999,
+        "sd": 0.4306623799103951,
+        "min": 3.6666666666666665,
+        "max": 5,
+        "tMean": 4.488888888888889,
+        "tSD": 0.4440611373921591,
+        "otMean": 4.7333333333333325,
+        "otSD": 0.34426518632954817,
+        "rank": 4,
+        "priority": "High"
+      },
+      {
+        "category": "Multimodal & Concrete Instruction",
+        "spssVar": "cat_multimodal_math",
+        "n": 40,
+        "itemIds": "REQ09, REQ10, REQ11",
+        "numItems": 3,
+        "mean": 4.466666666666666,
+        "sd": 0.4120686469516576,
+        "min": 3.6666666666666665,
+        "max": 5,
+        "tMean": 4.4,
+        "tSD": 0.4234505222898966,
+        "otMean": 4.666666666666667,
+        "otSD": 0.3142696805273545,
+        "rank": 5,
+        "priority": "Medium"
+      },
+      {
+        "category": "Learner Agency & Adult Routine Integration",
+        "spssVar": "cat_agency_routine",
+        "n": 40,
+        "itemIds": "REQ17, REQ18",
+        "numItems": 2,
+        "mean": 4.35,
+        "sd": 0.4414428557263044,
+        "min": 3.5,
+        "max": 5,
+        "tMean": 4.366666666666666,
+        "tSD": 0.43417248545530474,
+        "otMean": 4.3,
+        "otSD": 0.4830458915396479,
+        "rank": 6,
+        "priority": "Medium"
       }
     ]
   },
   "dptic": {
     "sub1": {
-      "mean": 3.857954545454546,
-      "sd": 0.24471257536819688,
-      "meanT": 3.877272727272728,
-      "meanOT": 3.8,
-      "pctAgree": 73.97727272727272,
-      "alpha": 0.8008383227226531,
+      "mean": 3.898863636363635,
+      "sd": 0.21847481783194284,
+      "meanT": 3.9151515151515146,
+      "meanOT": 3.85,
+      "pctAgree": 81.47727272727273,
+      "alpha": 0.7900964431389805,
       "subItemCount": 22
     },
     "sub2": {
-      "mean": 4.15375,
-      "sd": 0.23929316318841606,
-      "meanT": 4.164166666666667,
-      "meanOT": 4.1225000000000005,
-      "pctAgree": 86.8125,
-      "alpha": 0.8964276513463494,
+      "mean": 4.195624999999999,
+      "sd": 0.22359873485950063,
+      "meanT": 4.197499999999998,
+      "meanOT": 4.1899999999999995,
+      "pctAgree": 94.125,
+      "alpha": 0.8820162696644174,
       "subItemCount": 40
     },
     "sub3": {
-      "mean": 4.417045454545454,
-      "sd": 0.232432683416956,
-      "meanT": 4.45,
-      "meanOT": 4.318181818181818,
-      "pctAgree": 97.95454545454545,
-      "alpha": 0.8016567613537534,
+      "mean": 4.4647727272727264,
+      "sd": 0.22184366375091566,
+      "meanT": 4.495454545454544,
+      "meanOT": 4.372727272727273,
+      "pctAgree": 98.52272727272727,
+      "alpha": 0.7798713123398935,
       "subItemCount": 22
     },
     "sub4": {
-      "mean": 4.518382352941176,
-      "sd": 0.21661197551655334,
-      "meanT": 4.538235294117647,
-      "meanOT": 4.458823529411765,
-      "pctAgree": 98.89705882352942,
-      "alpha": 0.8717545961297068,
+      "mean": 4.6125,
+      "sd": 0.2266402079731421,
+      "meanT": 4.64313725490196,
+      "meanOT": 4.520588235294118,
+      "pctAgree": 99.19117647058823,
+      "alpha": 0.8820935984844397,
       "subItemCount": 34
     },
     "total": {
-      "mean": 4.252754237288135,
-      "sd": 0.19624649317485202,
-      "meanT": 4.271751412429379,
-      "meanOT": 4.195762711864407,
-      "pctAgree": 89.97881355932203,
-      "alpha": 0.9467539117446893,
+      "mean": 4.310593220338983,
+      "sd": 0.18398034888019316,
+      "meanT": 4.328813559322034,
+      "meanOT": 4.255932203389831,
+      "pctAgree": 94.04661016949153,
+      "alpha": 0.9411188666619515,
       "subItemCount": 118
     },
     "top10": [
       {
         "itemNum": 98,
+        "mean": 4.875,
+        "sd": 0.3349320635285418,
+        "pct45": 100
+      },
+      {
+        "itemNum": 88,
         "mean": 4.825,
-        "sd": 0.38480764425479264,
+        "sd": 0.3848076442547925,
         "pct45": 100
       },
       {
@@ -425,53 +555,189 @@
         "pct45": 100
       },
       {
-        "itemNum": 88,
-        "mean": 4.775,
-        "sd": 0.4229020617662604,
-        "pct45": 100
-      },
-      {
         "itemNum": 99,
         "mean": 4.75,
         "sd": 0.4385290096535146,
         "pct45": 100
       },
       {
-        "itemNum": 101,
-        "mean": 4.75,
-        "sd": 0.4385290096535146,
-        "pct45": 100
-      },
-      {
-        "itemNum": 87,
-        "mean": 4.725,
-        "sd": 0.5986094998689325,
-        "pct45": 97.5
-      },
-      {
-        "itemNum": 102,
+        "itemNum": 93,
         "mean": 4.725,
         "sd": 0.4522025867763027,
         "pct45": 100
       },
       {
-        "itemNum": 105,
+        "itemNum": 114,
         "mean": 4.725,
-        "sd": 0.45220258677630265,
-        "pct45": 100
-      },
-      {
-        "itemNum": 100,
-        "mean": 4.7,
-        "sd": 0.4640954808922571,
-        "pct45": 100
+        "sd": 0.5057363253408153,
+        "pct45": 97.5
       },
       {
         "itemNum": 71,
-        "mean": 4.675,
-        "sd": 0.5256253906367645,
+        "mean": 4.7,
+        "sd": 0.5163977794943222,
         "pct45": 97.5
+      },
+      {
+        "itemNum": 87,
+        "mean": 4.7,
+        "sd": 0.6076436202501999,
+        "pct45": 97.5
+      },
+      {
+        "itemNum": 94,
+        "mean": 4.675,
+        "sd": 0.47434164902525683,
+        "pct45": 100
+      },
+      {
+        "itemNum": 102,
+        "mean": 4.675,
+        "sd": 0.4743416490252568,
+        "pct45": 100
       }
     ]
-  }
+  },
+  "demographics": {
+    "teacher": {
+      "n": 30,
+      "female": 21,
+      "male": 9,
+      "ageMean": 37.4,
+      "ageMin": 26,
+      "ageMax": 52,
+      "expMean": 9.366666666666667,
+      "expSD": 4.205770529537535,
+      "specialSchool": 18,
+      "clinic": 4,
+      "inclusive": 8,
+      "daily": 24,
+      "severalTimes": 5,
+      "tablet": 16,
+      "desktop": 11,
+      "smartboard": 3
+    },
+    "ot": {
+      "n": 10,
+      "female": 8,
+      "male": 2,
+      "ageMean": 34.2,
+      "ageMin": 27,
+      "ageMax": 46,
+      "expMean": 8.8,
+      "expSD": 3.6147844564602556,
+      "specialSchool": 3,
+      "clinic": 7,
+      "inclusive": 0,
+      "daily": 9,
+      "severalTimes": 1,
+      "tablet": 9,
+      "desktop": 1,
+      "smartboard": 0
+    },
+    "student": {
+      "n": 10,
+      "female": 3,
+      "male": 7,
+      "ageMean": 10.8,
+      "ageMin": 8,
+      "ageMax": 14,
+      "specialSchool": 7,
+      "clinic": 2,
+      "inclusive": 1,
+      "level1": 6,
+      "level2": 4,
+      "spoken": 5,
+      "aac": 3,
+      "pecs": 2,
+      "daily": 6,
+      "severalTimes": 3,
+      "tablet": 8,
+      "smartboard": 2
+    },
+    "total": {
+      "n": 50,
+      "female": 32,
+      "male": 18,
+      "ageMean": 31.44,
+      "ageMin": 8,
+      "ageMax": 52,
+      "specialSchool": 28,
+      "clinic": 13,
+      "inclusive": 9,
+      "daily": 39,
+      "severalTimes": 9,
+      "tablet": 33,
+      "desktop": 12,
+      "smartboard": 5
+    }
+  },
+  "barriers": [
+    {
+      "id": "BAR01",
+      "label": "Peripheral banners, ads & moving graphics",
+      "tCount": 29,
+      "otCount": 9,
+      "impact": "Attentional capture, accidental off-task clicks, task derailment",
+      "totCount": 38,
+      "tPct": 96.7,
+      "otPct": 90,
+      "totPct": 95
+    },
+    {
+      "id": "BAR02",
+      "label": "Sudden loud audio, fanfares & celebratory sounds",
+      "tCount": 27,
+      "otCount": 10,
+      "impact": "Auditory startle reaction, ear-covering, physical tab closure",
+      "totCount": 37,
+      "tPct": 90,
+      "otPct": 100,
+      "totPct": 92.5
+    },
+    {
+      "id": "BAR03",
+      "label": "Harsh error buzzers & flashing red alerts",
+      "tCount": 26,
+      "otCount": 9,
+      "impact": "Acute frustration, task refusal, emotional escalation",
+      "totCount": 35,
+      "tPct": 86.7,
+      "otPct": 90,
+      "totPct": 87.5
+    },
+    {
+      "id": "BAR04",
+      "label": "Shifting navigation / Moving Back button",
+      "tCount": 25,
+      "otCount": 9,
+      "impact": "Disorientation, feeling trapped, constant teacher dependency",
+      "totCount": 34,
+      "tPct": 83.3,
+      "otPct": 90,
+      "totPct": 85
+    },
+    {
+      "id": "BAR05",
+      "label": "Split layouts / Multiple simultaneous instructions",
+      "tCount": 27,
+      "otCount": 8,
+      "impact": "Working memory overload, inability to initiate response",
+      "totCount": 35,
+      "tPct": 90,
+      "otPct": 80,
+      "totPct": 87.5
+    },
+    {
+      "id": "BAR06",
+      "label": "Stark white screen glare & excessive contrast",
+      "tCount": 21,
+      "otCount": 9,
+      "impact": "Visual fatigue, eye-rubbing, rapid decrease in time-on-task",
+      "totCount": 30,
+      "tPct": 70,
+      "otPct": 90,
+      "totPct": 75
+    }
+  ]
 }
