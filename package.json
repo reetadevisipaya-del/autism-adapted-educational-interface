@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "docx": "^9.16.0",
     "exceljs": "^4.4.0",
     "pptxgenjs": "^4.0.1"
   }
