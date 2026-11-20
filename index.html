@@ -278,11 +278,11 @@
           <span id="lessonStepIndicator" class="lesson-step">Step 1 of 5</span>
         </div>
 
-        <div class="lesson-card">
+        <div class="lesson-card" id="lessonCard">
           <h2 id="lessonTitle" class="lesson-headline">Let's learn addition!</h2>
           
           <div class="instruction-box">
-            <span class="inst-icon">💡</span>
+            <span class="inst-icon" id="lessonInstIcon">💡</span>
             <p id="lessonInstruction" class="instruction-text">Addition means putting groups together. How many apples are there altogether?</p>
           </div>
 
@@ -321,7 +321,7 @@
 
           <!-- Multiple Choice Options -->
           <div class="choice-container">
-            <p class="choice-prompt">Choose the correct answer:</p>
+            <p class="choice-prompt" id="lessonChoicePrompt">Choose the correct answer:</p>
             <div class="options-row" id="lessonOptionsRow">
               <button class="choice-btn" onclick="app.checkAnswer(4)">4</button>
               <button class="choice-btn" onclick="app.checkAnswer(5)">5</button>
@@ -348,6 +348,18 @@
             <button class="btn-primary" onclick="app.openVirtualCalculator()">
               <span>🖩</span> Use Visual Calculator
             </button>
+          </div>
+        </div>
+
+        <!-- LESSON MASTERY & COMPLETION CELEBRATION CARD -->
+        <div id="lessonCompleteCard" class="lesson-complete-card" style="display: none;">
+          <div class="celebration-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+          <h2 class="celebration-title" id="celebrationTitle">Super Job! Lesson Completed!</h2>
+          <p class="celebration-subtitle" id="celebrationSubtitle">You completed all steps of this lesson! You earned a shiny golden star!</p>
+          <div class="celebration-actions">
+            <button class="btn-primary" id="btnNextLesson" onclick="app.finishLessonAction('next')">Next Topic ➡</button>
+            <button class="btn-secondary" onclick="app.finishLessonAction('subjects')">Back to Topics 📚</button>
+            <button class="btn-secondary" onclick="app.navigateTo('my-learning')">View My Journey 🏆</button>
           </div>
         </div>
       </div>

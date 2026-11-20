@@ -1241,3 +1241,162 @@ body {
     flex-direction: column;
   }
 }
+
+/* FLEXIBLE TEXT CHOICE BUTTONS & PHONICS */
+.choice-btn.text-choice {
+  width: auto;
+  min-width: 140px;
+  max-width: 320px;
+  height: auto;
+  min-height: 75px;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.options-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+/* PHONICS CARDS */
+.phonics-letters-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.phonics-letter-card {
+  background-color: var(--bg-card);
+  border: 3px solid var(--border-subtle);
+  border-radius: 18px;
+  width: 90px;
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.phonics-letter-card:hover, .phonics-letter-card.tapped {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--primary);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.letter-glyph {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.letter-sound-tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* INTERACTIVE COUNTING FIELD (STARS, FROGS, ETC.) */
+.counting-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  background-color: var(--bg-card);
+  border-radius: 18px;
+  border: 2px solid var(--border-subtle);
+  margin-bottom: 1.2rem;
+}
+
+.counting-item {
+  font-size: 3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  user-select: none;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.counting-item:hover, .counting-item.tapped {
+  transform: scale(1.22);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.counting-item.tapped {
+  background-color: var(--primary-light);
+}
+
+/* SHAPES SHOWCASE */
+.shape-display-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  background-color: var(--bg-card);
+  border-radius: 18px;
+  border: 2px solid var(--border-subtle);
+}
+
+.shape-emoji-large {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+/* LESSON COMPLETE / CELEBRATION CARD */
+.lesson-complete-card {
+  background: linear-gradient(135deg, var(--bg-card), #F0FDF4);
+  border: 3px solid #84D39B;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.celebration-stars {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: 6px;
+  animation: pulse 1.5s infinite alternate;
+}
+
+.celebration-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #166534;
+  margin-bottom: 0.6rem;
+}
+
+.celebration-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-main);
+  margin-bottom: 1.8rem;
+}
+
+.celebration-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
