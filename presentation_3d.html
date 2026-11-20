@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Motion Presentation: Autism-Adapted Educational Interface | Chandigarh University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-space: #090D16;
+      --card-bg: rgba(22, 29, 47, 0.82);
+      --card-border: rgba(99, 102, 241, 0.35);
+      --card-glow: rgba(99, 102, 241, 0.2);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-purple: #818CF8;
+      --accent-cyan: #38BDF8;
+      --accent-sage: #4ADE80;
+      --accent-amber: #FBBF24;
+      --accent-coral: #F87171;
+      --font-body: 'Nunito', sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-space);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      perspective: 1400px;
+      user-select: none;
+    }
+
+    /* Ambient 3D Canvas Background */
+    #bgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Top Presentation Bar */
+    .pres-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cu-logo-pill {
+      background: linear-gradient(135deg, #E11D48, #9F1239);
+      color: #FFF;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 14px rgba(225, 29, 72, 0.4);
+    }
+
+    .pres-title {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: #E2E8F0;
+      letter-spacing: 0.3px;
+    }
+
+    .pres-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #E2E8F0;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      font-family: var(--font-body);
+      text-decoration: none;
+    }
+
+    .action-btn:hover {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: var(--accent-purple);
+      color: #FFF;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .action-btn.active {
+      background: var(--accent-purple);
+      color: #FFF;
+      border-color: var(--accent-purple);
+    }
+
+    /* 3D Viewport & Stage */
+    .stage-container {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      z-index: 10;
+    }
+
+    .slides-deck {
+      position: relative;
+      width: 1180px;
+      height: 640px;
+      transform-style: preserve-3d;
+      transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Individual 3D Slide */
+    .slide-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--card-glow);
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(0, 0, -600px) rotateY(45deg);
+      transition: opacity 0.7s ease, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.7s;
+      backface-visibility: hidden;
+      overflow-y: auto;
+    }
+
+    .slide-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide-card::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .slide-card.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0, 0, 0) rotateY(0deg);
+    }
+
+    .slide-card.prev {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(-600px, 0, -400px) rotateY(-35deg);
+    }
+
+    .slide-card.next {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(600px, 0, -400px) rotateY(35deg);
+    }
+
+    /* Slide Header */
+    .slide-pill {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid var(--accent-purple);
+      color: var(--accent-cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .slide-title {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 700;
+      color: #FFF;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .slide-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Grid Layouts for Content */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    /* 3D Feature & Stat Cards */
+    .info-card {
+      background: rgba(30, 41, 59, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 18px 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card:hover {
+      border-color: var(--accent-purple);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(99, 102, 241, 0.25);
+    }
+
+    .info-card h4 {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      color: #FFF;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card p, .info-card li {
+      font-size: 12.5px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+
+    .info-card ul {
+      padding-left: 18px;
+    }
+
+    /* Stat Highlight Banner */
+    .stat-hero {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--accent-cyan);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    /* Interactive 3D Device Mockup Frame */
+    .device-showcase-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+
+    .device-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .device-3d-box {
+      flex: 1;
+      background: #020617;
+      border: 8px solid #334155;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    .device-3d-box.orbit {
+      transform: rotateX(15deg) rotateY(-18deg) scale(0.95);
+    }
+
+    .device-screen-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #FAF8F5;
+    }
+
+    /* Interactive Data Table */
+    .pres-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .pres-table th {
+      background: rgba(30, 41, 59, 0.9);
+      color: #94A3B8;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .pres-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #E2E8F0;
+    }
+
+    .pres-table tr:hover td {
+      background: rgba(99, 102, 241, 0.12);
+    }
+
+    .tag-high {
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ADE80;
+      border: 1px solid #4ADE80;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 10px;
+    }
+
+    .tag-med {
+      background: rgba(251, 191, 36, 0.15);
+      color: #FBBF24;
+      border: 1px solid #FBBF24;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 10px;
+    }
+
+    /* Bottom Control Bar */
+    .pres-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 100;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-circle-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .nav-circle-btn:hover {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+      transform: scale(1.08);
+    }
+
+    .slide-counter {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .slide-counter span {
+      color: #FFF;
+      font-size: 16px;
+    }
+
+    .timeline-progress {
+      flex: 1;
+      max-width: 500px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      margin: 0 24px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .timeline-bar {
+      height: 100%;
+      width: 6.25%;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+    }
+
+    /* Speaker Notes Modal / Pill */
+    .notes-drawer {
+      position: fixed;
+      bottom: 80px;
+      right: 28px;
+      width: 380px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--accent-purple);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      z-index: 90;
+      display: none;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+
+    .notes-drawer.open {
+      display: block;
+      transform: translateY(0);
+    }
+
+    .notes-drawer h5 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .notes-drawer p {
+      font-size: 12px;
+      color: #E2E8F0;
+      line-height: 1.5;
+    }
+
+    /* 3D tilt effects */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background 3D Particle Starfield Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Top Presentation Header -->
+  <header class="pres-header">
+    <div class="brand-group">
+      <span class="cu-logo-pill">CU</span>
+      <div>
+        <div class="pres-title">Autism-Adapted Educational Interface — Dissertation Defense</div>
+        <div style="font-size: 11px; color: var(--text-muted);">Smayra (23BHP70113) • Supervisor: Dr. Kulbeer Kaur • Nov 2026</div>
+      </div>
+    </div>
+
+    <div class="pres-actions">
+      <button id="toggle3DBtn" class="action-btn" title="Toggle 3D Perspective Rotation (Hotkey: 3)">
+        <span>🔮</span> 3D Orbit Mode
+      </button>
+      <button id="toggleAudioBtn" class="action-btn active" title="Toggle Sound Feedback">
+        <span>🔔</span> Audio Chimes
+      </button>
+      <button id="toggleNotesBtn" class="action-btn" title="Toggle Examiner / Speaker Notes (Hotkey: N)">
+        <span>📝</span> Speaker Notes
+      </button>
+      <a href="Autism_Adapted_Educational_Interface_Presentation.pptx" download class="action-btn" style="background: rgba(16, 185, 129, 0.2); border-color: #10B981; color: #34D399;">
+        <span>📥</span> Download PPTX
+      </a>
+      <button id="fullscreenBtn" class="action-btn" title="Fullscreen (Hotkey: F)">
+        <span>⛶</span> Fullscreen
+      </button>
+    </div>
+  </header>
+
+  <!-- 3D Stage / Slides Deck -->
+  <main class="stage-container">
+    <div class="slides-deck" id="slidesDeck">
+
+      <!-- SLIDE 1: 3D Holographic Title Card -->
+      <section class="slide-card active" data-slide="1" data-notes="Welcome respected committee members and Dr. Kulbeer Kaur. Today I am defending my project on the Development of an Autism-Adapted Web-Based Educational Interface. This investigation establishes an empirical chain linking stakeholder needs to a functional educational platform.">
+        <span class="slide-pill">Project Defense • B.A. (Hons.) Psychology</span>
+        <h1 class="slide-title" style="font-size: 34px; margin-bottom: 12px; background: linear-gradient(135deg, #FFF, #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          Development of an Autism-Adapted<br>Web-Based Educational Interface
+        </h1>
+        <p class="slide-subtitle" style="font-size: 16px; color: var(--accent-cyan);">
+          A User-Centered Investigation of Educational Needs and Design Requirements
+        </p>
+
+        <div class="grid-3" style="margin-top: 10px;">
+          <div class="info-card">
+            <h4>👤 Candidate</h4>
+            <p><strong style="color: #FFF; font-size: 15px;">Smayra</strong></p>
+            <p>UID: <strong>23BHP70113</strong></p>
+            <p>Dept. of B.A. (Hons.) Psychology</p>
+            <p style="color: var(--accent-cyan); margin-top: 4px;">Chandigarh University</p>
+          </div>
+
+          <div class="info-card">
+            <h4>🎓 Supervisor</h4>
+            <p><strong style="color: #FFF; font-size: 15px;">Dr. Kulbeer Kaur</strong></p>
+            <p>Associate Professor - Psychology</p>
+            <p>Department of Psychology</p>
+            <p style="color: var(--accent-sage); margin-top: 4px;">Chandigarh University</p>
+          </div>
+
+          <div class="info-card">
+            <h4>🚀 Live Application</h4>
+            <p><strong style="color: var(--accent-sage); font-size: 15px;">"Learn & Grow"</strong></p>
+            <p>11-Screen Responsive Web Platform</p>
+            <p>Empirical Sample: N = 50 Stakeholders</p>
+            <p style="color: var(--accent-purple); margin-top: 4px;">Hosted on GitHub Pages</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 18px; background: rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.4); text-align: center;">
+          <p style="font-size: 13.5px; color: #E2E8F0;">
+            🔗 <strong>Live Application URL:</strong> <a href="https://reetadevisipaya-del.github.io/autism-adapted-educational-interface/" target="_blank" style="color: var(--accent-cyan); text-decoration: underline;">https://reetadevisipaya-del.github.io/autism-adapted-educational-interface/</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Research Aim & 5 Specific Objectives -->
+      <section class="slide-card" data-slide="2" data-notes="Here we present our principal research aim and the five specific objectives. The goal is to move beyond retrospective evaluation by grounding every interface button and color in pre-development empirical evidence.">
+        <span class="slide-pill">Core Formulation</span>
+        <h2 class="slide-title">Research Aim & Five Operational Objectives</h2>
+        <p class="slide-subtitle">Bridging psychological needs elicitation to front-end software engineering.</p>
+
+        <div class="info-card" style="background: rgba(99, 102, 241, 0.12); border-color: var(--accent-purple); padding: 16px 20px;">
+          <h4 style="color: var(--accent-purple);">🎯 PRINCIPAL RESEARCH AIM</h4>
+          <p style="font-size: 13.5px; color: #FFF; font-weight: 600; line-height: 1.5;">
+            To establish the educational needs and interface design requirements of autistic learners through a user-centered, stakeholder-informed needs assessment, and subsequently to develop an autism-adapted web-based educational interface that translates these requirements into practice.
+          </p>
+        </div>
+
+        <div class="grid-2" style="margin-top: 10px;">
+          <div class="info-card">
+            <h4>1️⃣ Needs & Profile Identification</h4>
+            <p>Identify educational needs, cognitive characteristics, and digital barriers via 30 teachers, 10 therapists, and 10 supported students.</p>
+          </div>
+          <div class="info-card">
+            <h4>2️⃣ UI/UX Feature Importance Ratings</h4>
+            <p>Quantify stakeholder valuation across 18 interface requirements and compare perspectives between teachers and therapists.</p>
+          </div>
+          <div class="info-card">
+            <h4>3️⃣ Triangulated Requirements Matrix</h4>
+            <p>Synthesize rating scales, 118-item DP-TIC-AUT-Q scores, and qualitative interview themes into High and Medium priorities.</p>
+          </div>
+          <div class="info-card">
+            <h4>4️⃣ Interface Operationalization</h4>
+            <p>Build "Learn & Grow"—an 11-screen accessible, single-page application incorporating sensory tranquility and concrete learning.</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 6px; padding: 10px 16px;">
+          <p style="font-size: 12px; color: var(--accent-sage);">
+            <strong>5️⃣ Evidential Traceability:</strong> Document an explicit audit trail proving how every color, button, sound, and layout traces directly back to empirical data and psychological theory.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Research Questions (RQ1 - RQ5) -->
+      <section class="slide-card" data-slide="3" data-notes="Our study addresses five focused research questions. They mirror our operational objectives to ensure total methodological alignment.">
+        <span class="slide-pill">Scientific Inquiry</span>
+        <h2 class="slide-title">Five Guiding Research Questions</h2>
+        <p class="slide-subtitle">Translating the needs-to-interface paradigm into verifiable scientific inquiries.</p>
+
+        <div class="slide-body">
+          <div class="info-card" style="border-left: 4px solid var(--accent-purple);">
+            <h4>❓ RQ 1: Educational Needs & Digital Barriers</h4>
+            <p>What educational needs, learning characteristics, and challenges in digital environments do special educators, therapists, and autistic learners identify?</p>
+            <p style="font-size: 11px; color: var(--accent-cyan); margin-top: 4px;">→ Answered by 40 semi-structured interviews & 10 student guided sessions (Table 4.2 & Table 4.7).</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-cyan);">
+            <h4>❓ RQ 2: Feature Importance & Group Comparisons</h4>
+            <p>Which UI/UX features do stakeholders rate as most important in web-based educational interfaces, and how do ratings compare between teachers and therapists?</p>
+            <p style="font-size: 11px; color: var(--accent-cyan); margin-top: 4px;">→ Answered by 18-item Priority Rating Scale SPSS descriptives & Compare Means (Table 4.3 & 4.4).</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-sage);">
+            <h4>❓ RQ 3: Prioritized Design Requirements</h4>
+            <p>What prioritized design requirements emerge when rating-scale data, questionnaire responses, and qualitative themes are integrated?</p>
+            <p style="font-size: 11px; color: var(--accent-cyan); margin-top: 4px;">→ Answered by convergent triangulation into 9 High and 9 Medium priorities (Table 4.8).</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-amber);">
+            <h4>❓ RQ 4 & RQ 5: Operationalization & Traceability</h4>
+            <p>How can prioritized requirements be operationalized in an educational web interface, and how can each feature be traced to its evidential basis?</p>
+            <p style="font-size: 11px; color: var(--accent-cyan); margin-top: 4px;">→ Answered by development of "Learn & Grow" and the Chapter 5 Design Traceability Matrix (Table 5.2).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Tripartite Theoretical Framework -->
+      <section class="slide-card" data-slide="4" data-notes="We integrate three theoretical pillars: Sweller's Cognitive Load Theory to minimize extraneous processing, CAST's Universal Design for Learning to ensure multiple modalities, and Mesibov's TEACCH for spatial and routine predictability.">
+        <span class="slide-pill">Theoretical Foundations</span>
+        <h2 class="slide-title">The Tripartite Theoretical Framework</h2>
+        <p class="slide-subtitle">How psychological learning theories govern interface architecture.</p>
+
+        <div class="grid-3" style="height: 100%;">
+          <div class="info-card" style="border-top: 4px solid var(--accent-purple);">
+            <h4 style="color: var(--accent-purple);">🧠 Cognitive Load Theory (CLT)</h4>
+            <p style="color: var(--accent-cyan); font-size: 11.5px; margin-bottom: 8px;">Sweller (1988); Sweller et al. (2019)</p>
+            <ul>
+              <li><strong>Working Memory Bottleneck:</strong> Autistic executive functioning differences amplify extraneous load.</li>
+              <li><strong>Clutter Elimination:</strong> Moving banners and ads deplete processing capacity needed for learning.</li>
+              <li><strong>Singular Focus:</strong> Presenting one task card per screen (Step 1 of 5) frees cognitive bandwidth.</li>
+            </ul>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-cyan);">
+            <h4 style="color: var(--accent-cyan);">🌐 Universal Design for Learning (UDL)</h4>
+            <p style="color: var(--accent-cyan); font-size: 11.5px; margin-bottom: 8px;">CAST (2018); Meyer et al. (2014)</p>
+            <ul>
+              <li><strong>Multiple Representations:</strong> Dual coding with paired SVG symbols and optional speech read-aloud.</li>
+              <li><strong>Multiple Action Modes:</strong> Large touch targets (≥48px) and tap-to-count manipulatives.</li>
+              <li><strong>Flexible Engagement:</strong> Unhurried self-pacing with zero anxiety-inducing timers.</li>
+            </ul>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-sage);">
+            <h4 style="color: var(--accent-sage);">🧩 TEACCH Structured Teaching</h4>
+            <p style="color: var(--accent-cyan); font-size: 11.5px; margin-bottom: 8px;">Mesibov et al. (2004); ISO 9241-210</p>
+            <ul>
+              <li><strong>Predictable Boundaries:</strong> Locked Back and Home anchors in identical coordinates on all screens.</li>
+              <li><strong>Explicit Completion:</strong> Visual progress steps and completion stars to relieve anxiety.</li>
+              <li><strong>Human-Centered Iteration:</strong> Multi-stage feedback cycles from educators and clinicians.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Literature Review: Neurodevelopmental Profiles -->
+      <section class="slide-card" data-slide="5" data-notes="The literature review reveals that autistic learners possess distinct perceptual styles. Enhanced perceptual functioning means details capture involuntary attention. Sensory modulation symptoms mean glare and buzzers are physically distressing.">
+        <span class="slide-pill">Literature Review</span>
+        <h2 class="slide-title">Autistic Cognitive & Sensory Profiles</h2>
+        <p class="slide-subtitle">Neurodevelopmental characteristics and their direct interface design implications.</p>
+
+        <div class="grid-2">
+          <div class="info-card">
+            <h4>👁️ Perceptual Processing & Weak Coherence</h4>
+            <p><strong>Literature:</strong> Mottron et al. (2006); Happé & Frith (2006); Keehn et al. (2013)</p>
+            <p>Autistic perception exhibits enhanced low-level processing and detail-focused attention. Peripheral graphics or animations strongly compete for focus.</p>
+            <p style="color: var(--accent-sage); margin-top: 6px;"><strong>→ Design Mandate:</strong> Remove all advertising banners, sidebars, and autoplay animations.</p>
+          </div>
+
+          <div class="info-card">
+            <h4>⚡ Executive Functioning & Memory</h4>
+            <p><strong>Literature:</strong> Demetriou et al. (2018); Boucher et al. (2012)</p>
+            <p>Moderate difficulties across planning, working memory, and mental flexibility. Multi-step activities without cues cause frustration and abandonment.</p>
+            <p style="color: var(--accent-sage); margin-top: 6px;"><strong>→ Design Mandate:</strong> Chunk learning into step meters (Step 1 of 5) with visible completion cues.</p>
+          </div>
+
+          <div class="info-card">
+            <h4>🔊 Sensory Reactivity & Auditory Modulation</h4>
+            <p><strong>Literature:</strong> Ben-Sasson et al. (2009); Robertson & Baron-Cohen (2017)</p>
+            <p>Atypical sensory modulation in >90% of individuals. Stark white screens cause glare fatigue; sudden loud buzzers trigger acute sensory defensive withdrawal.</p>
+            <p style="color: var(--accent-sage); margin-top: 6px;"><strong>→ Design Mandate:</strong> Warm ivory canvas (#FAF8F5) and pure sine-wave gentle chimes (440–659 Hz).</p>
+          </div>
+
+          <div class="info-card">
+            <h4>🖐️ Fine Motor Control & Dyspraxia</h4>
+            <p><strong>Literature:</strong> Fournier et al. (2010); Pavlov (2014)</p>
+            <p>Significant motor coordination differences. Precise clicking on small desktop hyperlinks is extremely error-prone on touchscreens.</p>
+            <p style="color: var(--accent-sage); margin-top: 6px;"><strong>→ Design Mandate:</strong> All interactive targets exceed 48×48 px with generous touch padding.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Critique of Existing Tools (Avaz, Otsimo, Mainstream) -->
+      <section class="slide-card" data-slide="6" data-notes="Examining current platforms shows Avaz is great for AAC but lacks subject curriculum, while Otsimo uses fast gamification that can overstimulate. Mainstream tools fail due to buzzers and timers. Learn & Grow bridges this gap.">
+        <span class="slide-pill">State of the Art</span>
+        <h2 class="slide-title">Critique of Existing EdTech & Literature Gaps</h2>
+        <p class="slide-subtitle">Contrasting current platforms and identifying the four key research voids.</p>
+
+        <table class="pres-table">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Primary Focus</th>
+              <th>Strengths</th>
+              <th>Documented Limitations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Avaz AAC</strong> (Invention Labs)</td>
+              <td>Speech & Communication</td>
+              <td>Pioneering Indian AAC tool, customizable vocabulary, culturally adapted.</td>
+              <td style="color: #F87171;">Communication focus only; does not provide academic math/science curriculum.</td>
+            </tr>
+            <tr>
+              <td><strong>Otsimo</strong> (Bayar, 2019)</td>
+              <td>ABA Gamified Training</td>
+              <td>Structured game mechanics, ad-free environment, visual reward cues.</td>
+              <td style="color: #F87171;">Proprietary requirements; fast gamification risks overstimulation; no teacher portal.</td>
+            </tr>
+            <tr>
+              <td><strong>Mainstream EdTech</strong> (ABCmouse)</td>
+              <td>General Curriculum</td>
+              <td>Rich content catalogs, high visual production value for neurotypicals.</td>
+              <td style="color: #F87171;">Harsh buzzers, countdown clocks, moving ads, and bright white glare cause meltdowns.</td>
+            </tr>
+            <tr style="background: rgba(74, 222, 128, 0.1);">
+              <td><strong style="color: var(--accent-sage);">Learn & Grow</strong> (This Study)</td>
+              <td>Autism-Adapted Web Learning</td>
+              <td>Single-task cards, sensory-calm palette, visual manipulatives, educator portal.</td>
+              <td style="color: var(--accent-sage);">Fully open-access, stakeholder-evidenced, browser-based single-page application.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-card" style="margin-top: 14px; background: rgba(251, 191, 36, 0.1); border-color: var(--accent-amber);">
+          <h4 style="color: var(--accent-amber); font-size: 13px;">📌 4 DOCUMENTED LITERATURE GAPS ADDRESSED:</h4>
+          <p style="font-size: 12px; color: #E2E8F0;">
+            1. Retrospective evaluation bias (software built before needs assessed) • 2. Vague, generic design guidelines lacking implementation code • 3. Absence of multi-method triangulation (standardized scales + qualitative voice) • 4. Scarcity of empirical research from Indian special education settings.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Methodology & Participant Sample (N = 50) -->
+      <section class="slide-card" data-slide="7" data-notes="We recruited 50 participants: 30 special education teachers averaging 9.4 years experience, 10 occupational therapists averaging 8.8 years experience, and 10 autistic learners aged 8 to 14. Ethical safeguards followed ICMR guidelines.">
+        <span class="slide-pill">Methodology</span>
+        <h2 class="slide-title">Methodological Framework & Sample Profile (N = 50)</h2>
+        <p class="slide-subtitle">A pragmatic convergent mixed-methods design in real-world educational settings.</p>
+
+        <div class="grid-3">
+          <div class="info-card">
+            <div class="stat-hero">30</div>
+            <h4>Special Education Teachers</h4>
+            <p>• 70% Female / 30% Male</p>
+            <p>• Mean Age: 37.4 yrs (Range 26–52)</p>
+            <p>• Mean Experience: <strong>9.4 ± 4.2 years</strong></p>
+            <p>• Settings: Special schools (18), Inclusive classrooms (8), Clinics (4)</p>
+            <p style="color: var(--accent-cyan); margin-top: 6px;">Completed DP-TIC, Rating Scale & Interview</p>
+          </div>
+
+          <div class="info-card">
+            <div class="stat-hero">10</div>
+            <h4>Occupational Therapists</h4>
+            <p>• 80% Female / 20% Male</p>
+            <p>• Mean Age: 34.2 yrs (Range 27–46)</p>
+            <p>• Mean Experience: <strong>8.8 ± 3.6 years</strong></p>
+            <p>• Settings: Sensory clinics (7), Special schools (3)</p>
+            <p style="color: var(--accent-purple); margin-top: 6px;">Clinical sensory & motor expertise</p>
+          </div>
+
+          <div class="info-card">
+            <div class="stat-hero">10</div>
+            <h4>Autistic Learners (Students)</h4>
+            <p>• Ages 8 to 14 years (Mean: 10.8 yrs)</p>
+            <p>• 6 Level 1 support / 4 Level 2 support</p>
+            <p>• Communication: 5 Spoken, 3 AAC, 2 PECS</p>
+            <p>• Guided walkthroughs in familiar settings</p>
+            <p style="color: var(--accent-sage); margin-top: 6px;">Behavioral observations & preference logs</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px; background: rgba(15, 23, 42, 0.8);">
+          <p style="font-size: 12px; color: #CBD5E1;">
+            🔒 <strong>Ethical Protocol (ICMR, 2017):</strong> Institutional permissions, written informed consent from adults/parents, and nonverbal assent from learners. All student sessions conducted alongside regular educators with immediate stop-on-discomfort rule.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Results: Six Critical Digital Barriers -->
+      <section class="slide-card" data-slide="8" data-notes="Every single barrier was cited by at least 75% of staff. Visual clutter was reported by 95%, loud audio by 92.5%, and harsh buzzers by 87.5%. 100% of therapists flagged loud sounds as disruptive.">
+        <span class="slide-pill">Empirical Results</span>
+        <h2 class="slide-title">Six Critical Digital Barriers in Mainstream Tools</h2>
+        <p class="slide-subtitle">Reported by N = 40 professionals during semi-structured qualitative interviews.</p>
+
+        <div class="grid-2">
+          <div class="info-card" style="border-left: 4px solid var(--accent-coral);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-coral);">Moving Banners & Ads</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-coral);">95.0%</span>
+            </div>
+            <p>Reported by 38/40 professionals (29 Teachers, 9 Therapists). Involuntarily grabs visual attention, causes accidental clicks, and derails the lesson.</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-amber);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-amber);">Sudden Loud Audio & Fanfares</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-amber);">92.5%</span>
+            </div>
+            <p>Reported by 37/40 professionals (100% of Therapists!). Causes startle responses, ear-covering, and immediate closing of the browser tab.</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-coral);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-coral);">Harsh Error Buzzers & Red Alerts</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-coral);">87.5%</span>
+            </div>
+            <p>Reported by 35/40 professionals. Triggers acute emotional frustration, feeling "attacked," and total task refusal.</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-cyan);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-cyan);">Shifting Navigation / Moving Buttons</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-cyan);">85.0%</span>
+            </div>
+            <p>Reported by 34/40 professionals. Moving the Back button induces spatial panic and creates total adult dependency.</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-purple);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-purple);">Split Layouts & Multi-Step Prompts</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-purple);">87.5%</span>
+            </div>
+            <p>Reported by 35/40 professionals. Overwhelms working memory; children cannot initiate tasks when two things are asked at once.</p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-sage);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--accent-sage);">Stark White Backgrounds & Glare</h4>
+              <span class="stat-hero" style="font-size: 24px; color: var(--accent-sage);">75.0%</span>
+            </div>
+            <p>Reported by 30/40 professionals (90% of Therapists). Causes severe photophobic visual fatigue and reduces on-task stamina.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Results: UI/UX Feature Importance Ratings (Table 4.3) -->
+      <section class="slide-card" data-slide="9" data-notes="The 18-item rating scale achieved high reliability (alpha = .865). Grand mean was 4.58. Clutter reduction ranked #1 (4.80), followed by screen structure, persistent Back button, and symbols (4.78). All items scored above 4.30.">
+        <span class="slide-pill">SPSS Descriptives (N = 40)</span>
+        <h2 class="slide-title">UI/UX Feature Importance Rankings (Table 4.3)</h2>
+        <p class="slide-subtitle">Grand Mean = 4.58 (SD = 0.55) • Scale Reliability: Cronbach's α = .865</p>
+
+        <table class="pres-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Code</th>
+              <th>Requirement Statement</th>
+              <th>Mean</th>
+              <th>SD</th>
+              <th>Min–Max</th>
+              <th>% Rated 4–5</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td><code>REQ07</code></td>
+              <td>Limited unnecessary visual clutter</td>
+              <td><strong>4.80</strong></td>
+              <td>0.41</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>2 (tie)</strong></td>
+              <td><code>REQ01</code></td>
+              <td>Clear and consistent screen structure</td>
+              <td><strong>4.78</strong></td>
+              <td>0.42</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>2 (tie)</strong></td>
+              <td><code>REQ05</code></td>
+              <td>Easy-to-find Back / Home / Help options</td>
+              <td><strong>4.78</strong></td>
+              <td>0.48</td>
+              <td>3–5</td>
+              <td>97.5%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>2 (tie)</strong></td>
+              <td><code>REQ09</code></td>
+              <td>Appropriate use of images/symbols with text</td>
+              <td><strong>4.78</strong></td>
+              <td>0.42</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>5 (tie)</strong></td>
+              <td><code>REQ04</code></td>
+              <td>One task/step presented clearly at a time</td>
+              <td><strong>4.75</strong></td>
+              <td>0.44</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>5 (tie)</strong></td>
+              <td><code>REQ15</code></td>
+              <td>Low-frustration error recovery / try-again</td>
+              <td><strong>4.75</strong></td>
+              <td>0.44</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>7</strong></td>
+              <td><code>REQ03</code></td>
+              <td>Simple and concise instructions</td>
+              <td><strong>4.70</strong></td>
+              <td>0.46</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>8 (tie)</strong></td>
+              <td><code>REQ06</code></td>
+              <td>Predictable response after clicking</td>
+              <td><strong>4.63</strong></td>
+              <td>0.49</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>8 (tie)</strong></td>
+              <td><code>REQ12</code></td>
+              <td>Personalization of pace and difficulty</td>
+              <td><strong>4.63</strong></td>
+              <td>0.49</td>
+              <td>4–5</td>
+              <td>100.0%</td>
+              <td><span class="tag-high">High Priority</span></td>
+            </tr>
+            <tr>
+              <td><strong>10–18</strong></td>
+              <td><code>REQ10–18</code></td>
+              <td>Feedback, sound controls, settings, routines</td>
+              <td><strong>4.30–4.58</strong></td>
+              <td>0.50–0.69</td>
+              <td>3–5</td>
+              <td>87.5–100%</td>
+              <td><span class="tag-med">Medium Priority</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          *Note: Items with Mean ≥ 4.60 classified as High Priority. All 18 items scored ≥ 4.30, confirming no requirement was viewed as non-essential.
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Results: Design-Principle Category Composite Scores -->
+      <section class="slide-card" data-slide="10" data-notes="Using SPSS COMPUTE Variable syntax, we calculated composite scores for six design categories. Visual simplicity ranked highest at 4.75, followed by predictable navigation at 4.68, and low-frustration feedback at 4.61.">
+        <span class="slide-pill">SPSS Compute Variable</span>
+        <h2 class="slide-title">Design-Principle Category Composite Scores</h2>
+        <p class="slide-subtitle">Syntax: <code>COMPUTE cat_name = MEAN(items...)</code> • Descriptives across N = 40</p>
+
+        <div class="grid-3">
+          <div class="info-card" style="border-top: 4px solid var(--accent-purple);">
+            <div class="stat-hero">4.75</div>
+            <h4>Visual Simplicity & Reduced Load</h4>
+            <p><strong>Items:</strong> REQ03, REQ04, REQ07</p>
+            <p>SD = 0.32 • Range: 4.00–5.00</p>
+            <p><span class="tag-high">High Priority (Rank 1)</span></p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-cyan);">
+            <div class="stat-hero">4.68</div>
+            <h4>Predictable Navigation & Structure</h4>
+            <p><strong>Items:</strong> REQ01, REQ02, REQ05, REQ06</p>
+            <p>SD = 0.36 • Range: 3.75–5.00</p>
+            <p><span class="tag-high">High Priority (Rank 2)</span></p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-sage);">
+            <div class="stat-hero">4.61</div>
+            <h4>Feedback & Low-Frustration Recovery</h4>
+            <p><strong>Items:</strong> REQ14, REQ15, REQ16</p>
+            <p>SD = 0.35 • Range: 4.00–5.00</p>
+            <p><span class="tag-high">High Priority (Rank 3)</span></p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-amber);">
+            <div class="stat-hero">4.55</div>
+            <h4>Sensory Regulation & Customization</h4>
+            <p><strong>Items:</strong> REQ08, REQ12, REQ13</p>
+            <p>SD = 0.43 • Range: 3.33–5.00</p>
+            <p><span class="tag-high">High Priority (Rank 4)</span></p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid #94A3B8;">
+            <div class="stat-hero" style="color: #94A3B8;">4.47</div>
+            <h4>Multimodal & Concrete Instruction</h4>
+            <p><strong>Items:</strong> REQ09, REQ10, REQ11</p>
+            <p>SD = 0.41 • Range: 3.67–5.00</p>
+            <p><span class="tag-med">Medium Priority (Rank 5)</span></p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid #94A3B8;">
+            <div class="stat-hero" style="color: #94A3B8;">4.35</div>
+            <h4>Learner Agency & Adult Routines</h4>
+            <p><strong>Items:</strong> REQ17, REQ18</p>
+            <p>SD = 0.44 • Range: 3.50–5.00</p>
+            <p><span class="tag-med">Medium Priority (Rank 6)</span></p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px; background: rgba(99, 102, 241, 0.1);">
+          <p style="font-size: 12px; color: #E2E8F0;">
+            📊 <strong>Descriptive Group Consensus:</strong> Teachers and therapists aligned closely on core structural items (Clutter: 4.77 vs. 4.90; Screen: 4.73 vs. 4.90). Therapists rated sensory customization higher (4.80 vs. 4.37), while teachers prioritized classroom routine fit (4.40 vs. 4.10).
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Results: DP-TIC-AUT-Q 118-Item Findings -->
+      <section class="slide-card" data-slide="11" data-notes="The standardized 118-item DP-TIC-AUT-Q confirmed outstanding reliability (alpha = .941). Agreement increased monotonically toward Section 4 (App functions and accessibility), which reached 4.61 with 99.2% agreement.">
+        <span class="slide-pill">Standardized Survey</span>
+        <h2 class="slide-title">DP-TIC-AUT-Q: 118-Item Questionnaire Analysis</h2>
+        <p class="slide-subtitle">Total Scale Mean = 4.31 (SD = 0.18) • Overall Agreement = 94.0% • Cronbach's α = .941</p>
+
+        <div class="grid-2">
+          <table class="pres-table">
+            <thead>
+              <tr>
+                <th>Section</th>
+                <th>Items</th>
+                <th>Mean</th>
+                <th>% Agree</th>
+                <th>α</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1. ICT Opinions & Diversity</td>
+                <td>22</td>
+                <td>3.90</td>
+                <td>81.5%</td>
+                <td>.790</td>
+              </tr>
+              <tr>
+                <td>2. Training & Autism Uses</td>
+                <td>40</td>
+                <td>4.20</td>
+                <td>94.1%</td>
+                <td>.882</td>
+              </tr>
+              <tr>
+                <td>3. App Benefits in Support</td>
+                <td>22</td>
+                <td>4.46</td>
+                <td>98.5%</td>
+                <td>.780</td>
+              </tr>
+              <tr style="background: rgba(74, 222, 128, 0.1);">
+                <td><strong>4. App Functions & Accessibility</strong></td>
+                <td><strong>34</strong></td>
+                <td><strong>4.61</strong></td>
+                <td><strong>99.2%</strong></td>
+                <td><strong>.882</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-sage);">
+            <h4 style="color: var(--accent-sage);">🏆 Top Individual Items Across All 118</h4>
+            <div style="margin-bottom: 8px;">
+              <p><strong style="color: #FFF;">Item 98 (M = 4.88, SD = 0.33):</strong></p>
+              <p style="font-size: 11.5px; color: var(--text-muted);">"Include tasks that respond to their individual needs" (100% agreement).</p>
+            </div>
+            <div style="margin-bottom: 8px;">
+              <p><strong style="color: #FFF;">Item 88 (M = 4.83, SD = 0.38):</strong></p>
+              <p style="font-size: 11.5px; color: var(--text-muted);">"Enable the user to add personalized images or pictograms" (100% agreement).</p>
+            </div>
+            <div>
+              <p><strong style="color: #FFF;">Item 85 (M = 4.80, SD = 0.41):</strong></p>
+              <p style="font-size: 11.5px; color: var(--text-muted);">"Universal accessibility in font size, color, graphic elements" (100% agreement).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px;">
+          <p style="font-size: 12px; color: #CBD5E1;">
+            💡 <strong>Validation Finding:</strong> Section 4 received the highest score in the instrument (4.61), confirming that front-end interface adjustments (sensory pacing, layout stability, visual supports) are perceived as the single most critical aspect of ICT interventions.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Qualitative Voices & Student Behavioral Evidence -->
+      <section class="slide-card" data-slide="12" data-notes="Interviews and student walkthroughs gave vivid proof. Teacher T02 described how shifting Back buttons makes children feel trapped. S02 covered ears at a buzzer, but smiled and tried again when a soft chime was used.">
+        <span class="slide-pill">Qualitative & Behavioral Triangulation</span>
+        <h2 class="slide-title">Verbatim Voices & Guided Student Walkthroughs</h2>
+        <p class="slide-subtitle">Triangulating adult professional rationale with observed child behavior.</p>
+
+        <div class="grid-2">
+          <div class="info-card" style="border-left: 4px solid var(--accent-purple);">
+            <h4>🗣️ Professional Voices (N = 40 Interviews)</h4>
+            <p style="font-style: italic; margin-bottom: 8px;">
+              "If the back button is not in the exact top-left corner on every page, children panic and believe they are trapped. The navigation bar must never shift."
+              <br><strong style="color: var(--accent-cyan);">— T02, Special School Teacher (3 yrs exp)</strong>
+            </p>
+            <p style="font-style: italic;">
+              "A harsh red cross or buzzer makes them feel attacked and shut down. Feedback must say 'Let's try again' with gentle hints."
+              <br><strong style="color: var(--accent-cyan);">— T05, Special Educator (5 yrs exp)</strong>
+            </p>
+          </div>
+
+          <div class="info-card" style="border-left: 4px solid var(--accent-sage);">
+            <h4>👶 Behavioral Observations (n = 10 Students)</h4>
+            <p style="margin-bottom: 8px;">
+              <strong>S02 (Age 8, Level 1):</strong> Startled and covered ears at a loud buzzer in a commercial app; smiled, clapped, and retried when a gentle sine chime was presented.
+            </p>
+            <p style="margin-bottom: 8px;">
+              <strong>S03 (Age 9, Level 1):</strong> Vocalized "Home" aloud and pressed the top-left Home icon whenever disoriented, showing visible emotional relief.
+            </p>
+            <p>
+              <strong>S04 (Age 10, Level 1):</strong> Tapped each apple in sequence, counting aloud "1, 2, 3, 4, 5" before answering, proving concrete manipulatives work.
+            </p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px; background: rgba(74, 222, 128, 0.1); border-color: var(--accent-sage);">
+          <p style="font-size: 12px; color: #FFF;">
+            🎯 <strong>Triangulation Outcome:</strong> In 100% of student observations, what learners demonstrated behaviorally mapped directly to the top-ranked requirements from the rating scale and DP-TIC-AUT-Q.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: 3D INTERACTIVE DEVICE SHOWCASE (Live Website Inside PPT) -->
+      <section class="slide-card" data-slide="13" data-notes="This is the centerpiece of our defense: our working website embedded directly into a 3D perspective device frame. You can see the persistent top bar, the calm ivory canvas, the concrete apple addition module, and the educator portal.">
+        <span class="slide-pill" style="background: rgba(56, 189, 248, 0.2); border-color: var(--accent-cyan); color: #FFF;">Interactive 3D Showcase</span>
+        <div class="device-toolbar">
+          <div>
+            <h2 class="slide-title" style="font-size: 22px; margin-bottom: 2px;">Working Website Interface: "Learn & Grow"</h2>
+            <p style="font-size: 12px; color: var(--text-muted);">
+              Responsive single-page web application • Test navigation, apple addition, visual calculator & educator portal live!
+            </p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button id="deviceTiltBtn" class="action-btn" style="background: var(--accent-cyan); color: #020617;">
+              🔄 3D Tilt View
+            </button>
+            <a href="https://reetadevisipaya-del.github.io/autism-adapted-educational-interface/" target="_blank" class="action-btn" style="background: var(--accent-sage); color: #020617;">
+              ↗️ Open Full Window
+            </a>
+          </div>
+        </div>
+
+        <div class="device-showcase-wrap" style="height: 440px;">
+          <div class="device-3d-box" id="deviceBox">
+            <iframe src="https://reetadevisipaya-del.github.io/autism-adapted-educational-interface/" class="device-screen-iframe" id="siteIframe" title="Live Website Preview"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Traceability & Design Rationale Matrix (Table 5.2) -->
+      <section class="slide-card" data-slide="14" data-notes="Table 5.2 demonstrates complete scientific traceability. Every interface feature is linked to an empirical mean rating, a qualitative theme, a supporting psychological theory, and code implementation.">
+        <span class="slide-pill">Verification & Traceability</span>
+        <h2 class="slide-title">Design Rationale & Traceability Matrix (Table 5.2)</h2>
+        <p class="slide-subtitle">Proving the unbroken evidential chain from user needs to deployed code.</p>
+
+        <table class="pres-table">
+          <thead>
+            <tr>
+              <th>Requirement</th>
+              <th>Empirical Baseline</th>
+              <th>Theoretical Grounding</th>
+              <th>Operationalized Feature in "Learn & Grow"</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>REQ07: Visual Clutter</strong></td>
+              <td>M = 4.80, Rank 1; 95% barrier</td>
+              <td>Cognitive Load Theory (Sweller, 2019)</td>
+              <td>One task card per screen; zero sidebar ads or edge banners.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ01/05: Predictable Nav</strong></td>
+              <td>M = 4.78 each, Rank 2</td>
+              <td>TEACCH & Executive Function (Demetriou, 2018)</td>
+              <td>Permanent top-left Back & Home anchors with history stack.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ04: Single Task Step</strong></td>
+              <td>M = 4.75, Rank 5; DP-TIC 63</td>
+              <td>Working Memory Offloading (Sweller, 2019)</td>
+              <td>Structured step meters (Step 1 of 5); one interaction at a time.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ08: Sound & Motion</strong></td>
+              <td>M = 4.55; 92.5% loud sound barrier</td>
+              <td>Sensory Modulation (Ben-Sasson, 2009)</td>
+              <td>Web Audio API sine synthesis (440–659 Hz); zero harsh buzzers.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ09/10: Concrete Math</strong></td>
+              <td>M = 4.78; Theme 4; DP-TIC 45</td>
+              <td>Dual Coding & Visually Cued (Quill, 1997)</td>
+              <td>Tappable apple counters (2+3=5); visual dot calculator pad.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ13: Personalization</strong></td>
+              <td>M = 4.47; Therapists M = 4.80</td>
+              <td>Universal Design for Learning (CAST, 2018)</td>
+              <td>Settings modal: 3 font sizes, 4 pastel themes, audio toggles.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ18: Educator Portal</strong></td>
+              <td>M = 4.33; Teachers M = 4.40</td>
+              <td>Classroom Ecology (Putnam & Chong, 2008)</td>
+              <td>PIN-protected separate dashboard (PIN: 1234) for IEP targets.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SLIDE 15: Discussion & Theoretical Concordance -->
+      <section class="slide-card" data-slide="15" data-notes="Our discussion challenges the edtech orthodoxy that faster games mean better learning. For autistic learners, calm visual palettes, gentle chimes, and spatial predictability produce sustained task engagement.">
+        <span class="slide-pill">Discussion</span>
+        <h2 class="slide-title">Discussion: Reframing Autism Interface Design</h2>
+        <p class="slide-subtitle">Challenging mainstream gamification orthodoxy through empirical evidence.</p>
+
+        <div class="grid-3">
+          <div class="info-card" style="border-top: 4px solid var(--accent-purple);">
+            <h4 style="color: var(--accent-purple);">🕊️ Calm Over Stimulation</h4>
+            <p>Mainstream software equates engagement with flashy animations and loud celebratory fanfares. For autistic learners, this induces sensory fragmentation and flight-or-fight defense.</p>
+            <p style="color: var(--accent-cyan); margin-top: 8px;"><strong>Finding:</strong> Visual calm and gentle sine tones foster genuine sustained cognitive engagement.</p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-cyan);">
+            <h4 style="color: var(--accent-cyan);">🧭 Navigation as Emotional Security</h4>
+            <p>Near-unanimous agreement on consistent layout (REQ01, 4.78) and permanent Back buttons (REQ05, 4.78) shows that spatial predictability is not merely convenient—it provides affective security.</p>
+            <p style="color: var(--accent-sage); margin-top: 8px;"><strong>Finding:</strong> Stable navigation relieves anxiety, freeing working memory for curriculum mastery.</p>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-sage);">
+            <h4 style="color: var(--accent-sage);">🇮🇳 Policy Alignment (India)</h4>
+            <p>Directly operationalizes the Rights of Persons with Disabilities Act (RPwD, 2016) and National Education Policy (NEP 2020) mandates for accessible digital learning resources.</p>
+            <p style="color: var(--accent-amber); margin-top: 8px;"><strong>Finding:</strong> Open-access, zero-cost web software eliminates institutional budget barriers.</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px; text-align: center; background: rgba(15, 23, 42, 0.9);">
+          <p style="font-size: 13px; color: #F8FAFC;">
+            💡 <strong>Theoretical Summary:</strong> Autism-adapted design is not about childish graphics—it is about cognitive clarity, sensory dignity, and emotional predictability.
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 16: Conclusion, Recommendations & Future Roadmap -->
+      <section class="slide-card" data-slide="16" data-notes="In conclusion, this study successfully accomplished all five objectives. We identified barriers, measured 18 requirements, synthesized priorities, built a 11-screen web app, and documented complete traceability. Thank you for your evaluation.">
+        <span class="slide-pill">Conclusion & Impact</span>
+        <h2 class="slide-title">Conclusion, Recommendations & Future Roadmap</h2>
+        <p class="slide-subtitle">A validated empirical needs assessment and an open-access working educational interface.</p>
+
+        <div class="grid-3">
+          <div class="info-card" style="border-top: 4px solid var(--accent-purple);">
+            <h4 style="color: var(--accent-purple);">✅ Core Conclusions</h4>
+            <ul>
+              <li>All 5 operational objectives successfully accomplished.</li>
+              <li>Baseline needs established across N = 50 stakeholders.</li>
+              <li>"Learn & Grow" built, verified, and deployed on GitHub Pages.</li>
+              <li>100% concordance between raw data, SPSS summaries & report.</li>
+            </ul>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-sage);">
+            <h4 style="color: var(--accent-sage);">📢 EdTech Recommendations</h4>
+            <ul>
+              <li><strong>Abolish buzzers & fanfares:</strong> Eliminate abrasive alerts; use soft sine tones.</li>
+              <li><strong>Anti-glare canvases:</strong> Standardize on warm ivory (#FAF8F5).</li>
+              <li><strong>Fixed anchors:</strong> Lock Back & Home buttons in the top-left corner.</li>
+              <li><strong>Discrete teacher space:</strong> Keep IEP dashboards off child screens.</li>
+            </ul>
+          </div>
+
+          <div class="info-card" style="border-top: 4px solid var(--accent-cyan);">
+            <h4 style="color: var(--accent-cyan);">🚀 Future Research Roadmap</h4>
+            <ul>
+              <li><strong>Pre/Post Controlled Trial:</strong> Evaluate academic math gains over 8 weeks.</li>
+              <li><strong>Eye-Tracking & Biometrics:</strong> Measure pupillary dilation & fixation stability.</li>
+              <li><strong>Adaptive Personalization:</strong> Machine learning engine auto-adjusting font & scaffolding.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 14px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(56, 189, 248, 0.2)); text-align: center; border-color: var(--accent-purple);">
+          <h4 style="color: #FFF; font-size: 16px; margin-bottom: 4px;">Thank You! Questions & Discussion Welcomed</h4>
+          <p style="font-size: 12px; color: var(--accent-cyan);">
+            Smayra (UID: 23BHP70113) • Supervisor: Dr. Kulbeer Kaur • Chandigarh University • November 2026
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Bottom Timeline & Navigation Bar -->
+  <footer class="pres-footer">
+    <div class="nav-controls">
+      <button id="prevBtn" class="nav-circle-btn" title="Previous Slide (Left Arrow)">◀</button>
+      <div class="slide-counter">
+        <span id="curSlideNum">1</span> / <span id="totalSlideNum">16</span>
+      </div>
+      <button id="nextBtn" class="nav-circle-btn" title="Next Slide (Right Arrow or Space)">▶</button>
+    </div>
+
+    <div class="timeline-progress" id="timelineTrack" title="Click to jump to slide">
+      <div class="timeline-bar" id="timelineBar"></div>
+    </div>
+
+    <div style="font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
+      <span>Use <strong>← / →</strong> or <strong>Space</strong> to navigate</span>
+    </div>
+  </footer>
+
+  <!-- Examiner / Speaker Notes Drawer -->
+  <div class="notes-drawer" id="notesDrawer">
+    <h5>📝 Examiner / Speaker Notes</h5>
+    <p id="notesContent">Loading speaker notes...</p>
+  </div>
+
+  <script>
+    // Presentation Engine
+    let currentSlide = 1;
+    const totalSlides = 16;
+    let is3DOrbit = false;
+    let audioEnabled = true;
+
+    const slidesDeck = document.getElementById('slidesDeck');
+    const curSlideNum = document.getElementById('curSlideNum');
+    const totalSlideNum = document.getElementById('totalSlideNum');
+    const timelineBar = document.getElementById('timelineBar');
+    const timelineTrack = document.getElementById('timelineTrack');
+    const notesDrawer = document.getElementById('notesDrawer');
+    const notesContent = document.getElementById('notesContent');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const toggle3DBtn = document.getElementById('toggle3DBtn');
+    const toggleAudioBtn = document.getElementById('toggleAudioBtn');
+    const toggleNotesBtn = document.getElementById('toggleNotesBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const deviceTiltBtn = document.getElementById('deviceTiltBtn');
+    const deviceBox = document.getElementById('deviceBox');
+
+    // Web Audio Gentle Chime Synthesizer
+    let audioCtx = null;
+    function playChime(freq = 523.25) { // C5 soft sine chime
+      if (!audioEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      } catch (e) {
+        // audio context muted or restricted
+      }
+    }
+
+    function updateSlide(targetSlide) {
+      if (targetSlide < 1 || targetSlide > totalSlides) return;
+      currentSlide = targetSlide;
+
+      // Update slide classes
+      const allSlides = document.querySelectorAll('.slide-card');
+      allSlides.forEach((s, idx) => {
+        const slideIdx = idx + 1;
+        s.classList.remove('active', 'prev', 'next');
+        if (slideIdx === currentSlide) {
+          s.classList.add('active');
+          const notes = s.getAttribute('data-notes') || 'No speaker notes for this slide.';
+          notesContent.innerText = notes;
+        } else if (slideIdx < currentSlide) {
+          s.classList.add('prev');
+        } else {
+          s.classList.add('next');
+        }
+      });
+
+      // Update counter and progress
+      curSlideNum.innerText = currentSlide;
+      const pct = (currentSlide / totalSlides) * 100;
+      timelineBar.style.width = pct + '%';
+
+      // Play soft transition chime
+      playChime(440 + (currentSlide * 20));
+    }
+
+    // Navigation Events
+    prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+    timelineTrack.addEventListener('click', (e) => {
+      const rect = timelineTrack.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const target = Math.ceil((clickX / rect.width) * totalSlides);
+      updateSlide(target);
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
+      } else if (e.key === '3') {
+        toggle3D();
+      }
+    });
+
+    // 3D Orbit Mode Toggle
+    function toggle3D() {
+      is3DOrbit = !is3DOrbit;
+      toggle3DBtn.classList.toggle('active', is3DOrbit);
+      if (is3DOrbit) {
+        slidesDeck.style.transform = 'rotateX(12deg) rotateY(-18deg) scale(0.92)';
+      } else {
+        slidesDeck.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+      }
+    }
+    toggle3DBtn.addEventListener('click', toggle3D);
+
+    // Audio Toggle
+    toggleAudioBtn.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      toggleAudioBtn.classList.toggle('active', audioEnabled);
+      toggleAudioBtn.innerHTML = audioEnabled ? '<span>🔔</span> Audio Chimes' : '<span>🔕</span> Sound Muted';
+    });
+
+    // Notes Toggle
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      toggleNotesBtn.classList.toggle('active');
+    }
+    toggleNotesBtn.addEventListener('click', toggleNotes);
+
+    // Fullscreen Toggle
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // Device Tilt Button on Slide 13
+    if (deviceTiltBtn && deviceBox) {
+      deviceTiltBtn.addEventListener('click', () => {
+        deviceBox.classList.toggle('orbit');
+      });
+    }
+
+    // Interactive 3D Ambient Particle Canvas
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 90; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        z: Math.random() * 800,
+        radius: Math.random() * 2 + 1,
+        color: i % 3 === 0 ? 'rgba(129, 140, 248, 0.45)' : (i % 3 === 1 ? 'rgba(56, 189, 248, 0.35)' : 'rgba(74, 222, 128, 0.25)'),
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4
+      });
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+      });
+      requestAnimationFrame(renderParticles);
+    }
+    renderParticles();
+
+    // Mouse Gyroscope Parallax on Slides Deck
+    window.addEventListener('mousemove', (e) => {
+      if (is3DOrbit) return;
+      const xNorm = (e.clientX / window.innerWidth) - 0.5;
+      const yNorm = (e.clientY / window.innerHeight) - 0.5;
+      slidesDeck.style.transform = `rotateY(${xNorm * 7}deg) rotateX(${-yNorm * 7}deg)`;
+    });
+
+    // Initialize Slide 1
+    updateSlide(1);
+  </script>
+</body>
+</html>
